@@ -1,19 +1,6 @@
 import PySimpleGUI as sg
-import CipherC as Cipher
-
-# key
 from Container import Container
-from Ports import Ports, Port
-
-key = "DSckaLWVPK18MqaMjEVcnqScNBrQI2LHpvml6MtPosQ="
-key = key.encode()
-# Pattern
-pattern = 3
-encrypted = ""
-decrypted = ""
-text = ""
-options = ""
-orginal_text = ""
+from Ports import Port
 
 containers = []
 ports = [Port("5000", "5000"), Port("5001", "5001")]
@@ -52,7 +39,7 @@ file_browse = [
     ],
     [
         sg.Text("Container name: ", key='-image-name-', visible=False),
-        sg.In(size=(25, 1), enable_events=True,key='-image-name-value-', visible=False),
+        sg.In(size=(25, 1), enable_events=True, key='-image-name-value-', visible=False),
     ]
     ,
     [
@@ -76,22 +63,20 @@ intput = [
 ]
 output = [
     [
-        sg.Text(auto_size_text=True, size=(40, 35), key="-TOOT-")
+        sg.Text(auto_size_text=True, size=(40, 35), key="-TOOT-", visible=True)
 
     ]
 ]
 layout = [
     [
 
-        sg.Col(file_browse),
+        sg.Col(file_browse, pad=((50, 0), 200), expand_y=True),
         sg.VSeparator(),
-        sg.Column(intput),
-        sg.VSeparator(),
-        sg.Column(output),
+        sg.Column(intput)
     ]
 ]
 
-window = sg.Window('Cesar Cipher', layout)
+window = sg.Window('Docker-Compose Generator', layout, size=(1200, 800))
 while True:
     event, values = window.read()
     if event == sg.WINDOW_CLOSED or event == 'Quit':
@@ -102,6 +87,5 @@ while True:
     else:
         window['-image-name-'].update(visible=False)
         window['-image-name-value-'].update(visible=False)
-
 
 window.close()
