@@ -4,8 +4,9 @@ from Ports import Port
 
 containers = []
 ports = [Port("5000", "5000"), Port("5001", "5001")]
-containers.append(Container("test1", "redis", ports))
-containers.append(Container("test2", "mongo", ports))
+containers.append(Container("Raven", "mongo", ports))
+containers.append(Container("redis", "redis", ports))
+containers.append(Container("mongoDb", "mongo", ports))
 
 
 def CheckRadioButtton():
@@ -18,17 +19,18 @@ def CheckRadioButtton():
 
 
 def appendButton(elements):
-    array = []
+    array = [sg.Text("Containers: ", key='-container-text-')]
     for container in elements:
-        array.append(sg.Button(str(container.name)))
+        array.append(sg.Button(container.name, enable_events=True, key=f'-{container.name}-'))
     return array
 
 
+sg.theme('DarkTanBlue')
 rowButtons = appendButton(containers)
-container_name = [
-
-]
 file_browse = [
+
+    [sg.Input(visible=False)],
+
     rowButtons,
     [
         sg.Text("Choose elements"),
@@ -76,7 +78,7 @@ layout = [
     ]
 ]
 
-window = sg.Window('Docker-Compose Generator', layout, size=(1200, 800))
+window = sg.Window('Docker-Compose Generator', layout, size=(1200, 800), right_click_menu=sg.MENU_RIGHT_CLICK_EDITME_EXIT)
 while True:
     event, values = window.read()
     if event == sg.WINDOW_CLOSED or event == 'Quit':
