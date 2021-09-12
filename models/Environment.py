@@ -6,4 +6,4 @@ class Environments:
 
 class Environment:
     def __init__(self, environment):
-        self.port = f'- {environment}"'
+        self.enviroment = f'- {environment}"'

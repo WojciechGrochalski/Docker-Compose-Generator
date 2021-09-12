@@ -5,9 +5,9 @@ from layout import Layout
 
 containers = []
 ports = [Port("5000", "5000"), Port("5001", "5001")]
-containers.append(Container("Raven", "raven", ports))
-containers.append(Container("redis", "redis", ports))
-containers.append(Container("mongoDb", "mongo", ports))
+containers.append(Container("Raven"))
+containers.append(Container("redis"))
+containers.append(Container("mongoDb"))
 
 sg.theme('DarkTanBlue')
 
@@ -15,12 +15,21 @@ menu = [
     [sg.Input(visible=False, key='-hiden-input-')],
     Layout.createContainersRow(containers),
     Layout.createElementsRow(),
-    Layout.createImageSection(),
+    [sg.Frame(layout=[[sg.Col(Layout.createImageSection(), vertical_alignment='c')]], vertical_alignment='c',
+              pad=((0, 0), (30, 10)), title='', border_width=0)],
+    [sg.Frame(layout=[[sg.Col(Layout.createBuildSection(), vertical_alignment='c')]], vertical_alignment='c',
+              pad=((0, 0), (30, 10)), title='', border_width=0)],
+    [sg.Frame(layout=[[sg.Col(Layout.createEnvSection(), vertical_alignment='c')]], vertical_alignment='c',
+              pad=((0, 0), (30, 10)), title='', border_width=0)],
+    [sg.Frame(layout=[[sg.Col(Layout.createPortsSection(), vertical_alignment='c')]], vertical_alignment='c',
+              pad=((0, 0), (30, 10)), title='', border_width=0)],
+
+
 ]
 
 intput = [
     [
-        sg.Text(auto_size_text=True, background_color='white', text_color='black', size=(200, 100), key="-input-")
+        sg.Text(auto_size_text=True, size=(100, 200), key="-input-")
     ]
 ]
 
@@ -29,7 +38,7 @@ app_layout = [
 
         sg.Col(menu, pad=((20, 0), (150, 10)), expand_y=True, expand_x=True),
         sg.VSeparator(),
-        sg.Column(intput)
+        sg.Column(intput, pad=((20, 0), (150, 10)))
     ]
 ]
 
@@ -44,9 +53,16 @@ while True:
     Layout.setCurrentContainer(containers, event)
     if Layout.handleContainerControls(containers, event):
         Layout.toggleVisibilityOfSectionControls(window, True)
-    if event == '-save-image-name-':
+    if event == '-save-image-':
         Layout.updateContainerName(activeContainer, values['-image-name-value-'])
     if event == '-image-':
         Layout.toggleVisibilityOfSectionImage(window, True)
+    if event == '-build-':
+        Layout.toggleVisibilityOfSectionBuild(window, True)
+    if event == '-ports-':
+        Layout.toggleVisibilityOfSectionPort(window, True)
+    if event == '-env-':
+        Layout.toggleVisibilityOfSectionEnv(window, True)
+
 
 window.close()
