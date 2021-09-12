@@ -2,6 +2,7 @@ import PySimpleGUI as sg
 from models.Container import Container
 from models.Ports import Port
 from layout import Layout
+from layout import MenuLayout as menuLayout
 
 containers = []
 ports = [Port("5000", "5000"), Port("5001", "5001")]
@@ -13,17 +14,23 @@ sg.theme('DarkTanBlue')
 
 menu = [
     [sg.Input(visible=False, key='-hiden-input-')],
-    Layout.createContainersRow(containers),
-    Layout.createElementsRow(),
-    [sg.Frame(layout=[[sg.Col(Layout.createImageSection(), vertical_alignment='c')]], vertical_alignment='c',
-              pad=((0, 0), (30, 10)), title='', border_width=0)],
-    [sg.Frame(layout=[[sg.Col(Layout.createBuildSection(), vertical_alignment='c')]], vertical_alignment='c',
-              pad=((0, 0), (30, 10)), title='', border_width=0)],
-    [sg.Frame(layout=[[sg.Col(Layout.createEnvSection(), vertical_alignment='c')]], vertical_alignment='c',
-              pad=((0, 0), (30, 10)), title='', border_width=0)],
-    [sg.Frame(layout=[[sg.Col(Layout.createPortsSection(), vertical_alignment='c')]], vertical_alignment='c',
-              pad=((0, 0), (30, 10)), title='', border_width=0)],
-
+    menuLayout.createContainersRow(containers),
+    menuLayout.createElementsRow(),
+    [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createImageSection(), vertical_alignment='c')]],
+                     vertical_alignment='c', key='-image-section-', visible=False,
+                     pad=((0, 0), (0, 0)), title='', border_width=0, ))],
+    [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createBuildSection(), vertical_alignment='c')]],
+                     vertical_alignment='c', key='-build-section-', visible=False,
+                     pad=((0, 0), (0, 0)), title='', border_width=0, ))],
+    [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createPortsSection(), vertical_alignment='c')]],
+                     vertical_alignment='c', key='-ports-section-', visible=False,
+                     pad=((0, 0), (0, 0)), title='', border_width=0))],
+    [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createEnvSection(), vertical_alignment='c')]],
+                     vertical_alignment='c', key='-env-section-', visible=False,
+                     pad=((0, 0), (0, 0)), title='', border_width=0))],
+    [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createDependsSection(), vertical_alignment='c', )]],
+                     vertical_alignment='c', key='-depends-section-', visible=False,
+                     pad=((0, 0), (0, 0)), title='', border_width=0))],
 
 ]
 
@@ -36,13 +43,13 @@ intput = [
 app_layout = [
     [
 
-        sg.Col(menu, pad=((20, 0), (150, 10)), expand_y=True, expand_x=True),
+        sg.Col(menu, pad=((20, 0), (150, 0)), expand_y=True, expand_x=True),
         sg.VSeparator(),
         sg.Column(intput, pad=((20, 0), (150, 10)))
     ]
 ]
 
-window = sg.Window('Docker-Compose Generator', app_layout, size=(1200, 800),
+window = sg.Window('Docker-Compose Generator', app_layout, size=(1200, 800), resizable=True,
                    right_click_menu=sg.MENU_RIGHT_CLICK_EDITME_EXIT)
 activeContainer = Container(None, None, None)
 while True:
@@ -50,7 +57,7 @@ while True:
     window["-input-"].update(containers[0].name)
     if event == sg.WINDOW_CLOSED or event == 'Quit':
         break
-    Layout.setCurrentContainer(containers, event)
+    currnetContainer = Layout.setCurrentContainer(containers, event)
     if Layout.handleContainerControls(containers, event):
         Layout.toggleVisibilityOfSectionControls(window, True)
     if event == '-save-image-':
@@ -63,6 +70,7 @@ while True:
         Layout.toggleVisibilityOfSectionPort(window, True)
     if event == '-env-':
         Layout.toggleVisibilityOfSectionEnv(window, True)
-
+    if event == '-depends-':
+        Layout.toggleVisibilityOfSectionDepends(window, True)
 
 window.close()

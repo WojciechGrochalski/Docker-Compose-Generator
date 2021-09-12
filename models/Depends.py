@@ -6,4 +6,4 @@ class Depends:
 
 class Dependency:
     def __init__(self, dependency):
-        self.port = f'- {dependency}'
+        self.depends = f'- {dependency}'
