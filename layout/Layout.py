@@ -1,5 +1,7 @@
 import PySimpleGUI as sg
 
+current_container = None
+
 
 def appendButton(elements):
     array = [sg.Text("Containers: ", pad=((3, 0), (0, 0)), key='-container-text-')]
@@ -63,7 +65,7 @@ def toggleVisibilityOfSectionControls(window, state):
     window['-depends-'].update(visible=state)
 
 
-def updateContainerName(container, name):
+def get_container_name(container, name):
     print(name)
     container.name = name
 
@@ -71,14 +73,16 @@ def updateContainerName(container, name):
 def setCurrentContainer(containers, event):
     for container in containers:
         if event == f'-{container.name}-':
+            global current_container
+            current_container = container
             print(container.name)
             return container
-    return None
+    return current_container
 
 
 def handleContainerControls(containers, event):
     for container in containers:
         if event == f'-{container.name}-':
-            print(container.name)
+            print('exsist', container.name)
             return True
     return False

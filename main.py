@@ -1,4 +1,6 @@
 import PySimpleGUI as sg
+
+from GeneratorHelper import GeneratorHelper
 from models.Container import Container
 from models.Ports import Port
 from layout import Layout
@@ -28,7 +30,7 @@ menu = [
     [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createEnvSection(), vertical_alignment='c')]],
                      vertical_alignment='c', key='-env-section-', visible=False,
                      pad=((0, 0), (0, 0)), title='', border_width=0))],
-    [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createDependsSection(), vertical_alignment='c', )]],
+    [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createDependsSection(3), vertical_alignment='c', )]],
                      vertical_alignment='c', key='-depends-section-', visible=False,
                      pad=((0, 0), (0, 0)), title='', border_width=0))],
 
@@ -51,17 +53,17 @@ app_layout = [
 
 window = sg.Window('Docker-Compose Generator', app_layout, size=(1200, 800), resizable=True,
                    right_click_menu=sg.MENU_RIGHT_CLICK_EDITME_EXIT)
-activeContainer = Container(None, None, None)
+
 while True:
     event, values = window.read()
-    window["-input-"].update(containers[0].name)
+    window['-input-'].update(GeneratorHelper.GenerateYaml(containers))
     if event == sg.WINDOW_CLOSED or event == 'Quit':
         break
-    currnetContainer = Layout.setCurrentContainer(containers, event)
     if Layout.handleContainerControls(containers, event):
+        currnetContainer = Layout.setCurrentContainer(containers, event)
         Layout.toggleVisibilityOfSectionControls(window, True)
     if event == '-save-image-':
-        Layout.updateContainerName(activeContainer, values['-image-name-value-'])
+        GeneratorHelper.SetContainerName(currnetContainer, containers, values['-image-name-value-'])
     if event == '-image-':
         Layout.toggleVisibilityOfSectionImage(window, True)
     if event == '-build-':
