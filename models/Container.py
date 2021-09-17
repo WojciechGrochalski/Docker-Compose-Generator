@@ -9,3 +9,6 @@ class Container:
         self.ports = ports
         self.environments = environments
         self.depends = depends
+        self.portsCount = 1
+        self.environments = 1
+        self.dependsCout = 1

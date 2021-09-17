@@ -51,20 +51,52 @@ def createPortsSection(count=1):
 def addAnotherSectionOfPorts(count):
     array = []
     for i in range(count):
-        inputs = [
-            sg.pin(sg.Text("Outer port: ", pad=((0, 0), (40, 0)), key=f"-outer-port-label-{i}-")),
-            sg.pin(sg.In(size=(10, 1), pad=((5, 0), (40, 0)), enable_events=True, key=f'-outer-port-value-{i}-')),
-            sg.pin(sg.Text("Inner port: ", pad=((10, 0), (40, 0)), key=f"-inner-port-label-{i}-")),
-            sg.pin(sg.In(size=(10, 1), pad=((5, 0), (40, 0)), enable_events=True, key=f'-inner-port-value-{i}-'))]
+        if i >= 1:
+            inputs = [
+                sg.pin(sg.Text("Outer port: ", pad=((0, 0), (40, 0)), key=f"-outer-port-label-{i}-", visible=False)),
+                sg.pin(sg.In(size=(10, 1), pad=((5, 0), (40, 0)), enable_events=True, key=f'-outer-port-value-{i}-',
+                             visible=False)),
+                sg.pin(sg.Text("Inner port: ", pad=((10, 0), (40, 0)), key=f"-inner-port-label-{i}-", visible=False)),
+                sg.pin(sg.In(size=(10, 1), pad=((5, 0), (40, 0)), enable_events=True, key=f'-inner-port-value-{i}-',
+                             visible=False))]
+        else:
+            inputs = [
+                sg.pin(sg.Text("Outer port: ", pad=((0, 0), (40, 0)), key=f"-outer-port-label-{i}-")),
+                sg.pin(sg.In(size=(10, 1), pad=((5, 0), (40, 0)), enable_events=True, key=f'-outer-port-value-{i}-')),
+                sg.pin(sg.Text("Inner port: ", pad=((10, 0), (40, 0)), key=f"-inner-port-label-{i}-")),
+                sg.pin(sg.In(size=(10, 1), pad=((5, 0), (40, 0)), enable_events=True, key=f'-inner-port-value-{i}-'))]
         array.append(inputs)
 
     controls = [
         sg.pin(sg.Button('Add another', size=(12, 1), pad=((70, 0), (20, 0)), enable_events=True, key='-add-port-')),
         sg.pin(sg.Button('Save', size=(12, 1), pad=((10, 0), (20, 0)), enable_events=True, key='-save-port-'))
-    ]
 
+    ]
+    remove = [
+        sg.pin(sg.Button('Remove', size=(12, 1), pad=((70, 0), (20, 0)), enable_events=True, key='-remove-port-'))]
     array.append(controls)
+    array.append(remove)
     return array
+
+
+def toggle_ports_in_range(scope, state, window):
+    if scope == 0:
+        for i in range(0, 10):
+            window[f'-outer-port-label-{i}-'].update(visible=False)
+            window[f'-outer-port-value-{i}-'].update(visible=False)
+            window[f'-inner-port-label-{i}-'].update(visible=False)
+            window[f'-inner-port-value-{i}-'].update(visible=False)
+    else:
+        for i in range(scope):
+            window[f'-outer-port-label-{i}-'].update(visible=state)
+            window[f'-outer-port-value-{i}-'].update(visible=state)
+            window[f'-inner-port-label-{i}-'].update(visible=state)
+            window[f'-inner-port-value-{i}-'].update(visible=state)
+        for i in range(scope+1, 10):
+            window[f'-outer-port-label-{i}-'].update(visible=False)
+            window[f'-outer-port-value-{i}-'].update(visible=False)
+            window[f'-inner-port-label-{i}-'].update(visible=False)
+            window[f'-inner-port-value-{i}-'].update(visible=False)
 
 
 def createEnvSection(count=1):

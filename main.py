@@ -3,7 +3,7 @@ import PySimpleGUI as sg
 from GeneratorHelper import GeneratorHelper
 from models.Container import Container
 from models.Ports import Port
-from layout import Layout
+from layout import Layout, MenuLayout
 from layout import MenuLayout as menuLayout
 
 containers = []
@@ -24,13 +24,13 @@ menu = [
     [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createBuildSection(), vertical_alignment='c')]],
                      vertical_alignment='c', key='-build-section-', visible=False,
                      pad=((0, 0), (0, 0)), title='', border_width=0, ))],
-    [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createPortsSection(), vertical_alignment='c')]],
+    [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createPortsSection(11), vertical_alignment='c')]],
                      vertical_alignment='c', key='-ports-section-', visible=False,
                      pad=((0, 0), (0, 0)), title='', border_width=0))],
-    [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createEnvSection(), vertical_alignment='c')]],
+    [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createEnvSection(11), vertical_alignment='c')]],
                      vertical_alignment='c', key='-env-section-', visible=False,
                      pad=((0, 0), (0, 0)), title='', border_width=0))],
-    [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createDependsSection(3), vertical_alignment='c', )]],
+    [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createDependsSection(11), vertical_alignment='c', )]],
                      vertical_alignment='c', key='-depends-section-', visible=False,
                      pad=((0, 0), (0, 0)), title='', border_width=0))],
 
@@ -45,14 +45,14 @@ intput = [
 app_layout = [
     [
 
-        sg.Col(menu, pad=((20, 0), (150, 0)), expand_y=True, expand_x=True),
+        sg.Col(menu, pad=((20, 0), (50, 0)), expand_y=True, expand_x=True),
         sg.VSeparator(),
         sg.Column(intput, pad=((20, 0), (150, 10)))
     ]
 ]
 
 window = sg.Window('Docker-Compose Generator', app_layout, size=(1200, 800), resizable=True,
-                   right_click_menu=sg.MENU_RIGHT_CLICK_EDITME_EXIT)
+                   right_click_menu=sg.MENU_RIGHT_CLICK_EDITME_EXIT).finalize()
 
 while True:
     event, values = window.read()
@@ -62,17 +62,10 @@ while True:
     if Layout.handleContainerControls(containers, event):
         currnetContainer = Layout.setCurrentContainer(containers, event)
         Layout.toggleVisibilityOfSectionControls(window, True)
-    if event == '-save-image-':
-        GeneratorHelper.SetContainerName(currnetContainer, containers, values['-image-name-value-'])
-    if event == '-image-':
-        Layout.toggleVisibilityOfSectionImage(window, True)
-    if event == '-build-':
-        Layout.toggleVisibilityOfSectionBuild(window, True)
-    if event == '-ports-':
-        Layout.toggleVisibilityOfSectionPort(window, True)
-    if event == '-env-':
-        Layout.toggleVisibilityOfSectionEnv(window, True)
-    if event == '-depends-':
-        Layout.toggleVisibilityOfSectionDepends(window, True)
+
+    Layout.handle_button_visibility(window, currnetContainer)
+    Layout.handle_controls_section(event, window, values, currnetContainer, containers)
+    Layout.handle_port_section(event, window, currnetContainer)
+    Layout.handle_button_visibility(window, currnetContainer)
 
 window.close()

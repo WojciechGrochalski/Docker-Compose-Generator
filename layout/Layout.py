@@ -1,6 +1,6 @@
 import PySimpleGUI as sg
-
-current_container = None
+from GeneratorHelper import GeneratorHelper
+from layout import MenuLayout
 
 
 def appendButton(elements):
@@ -73,11 +73,9 @@ def get_container_name(container, name):
 def setCurrentContainer(containers, event):
     for container in containers:
         if event == f'-{container.name}-':
-            global current_container
-            current_container = container
-            print(container.name)
+            # MenuLayout.show_ports_in_range(container.portsCount, True, window)
             return container
-    return current_container
+    return None
 
 
 def handleContainerControls(containers, event):
@@ -86,3 +84,38 @@ def handleContainerControls(containers, event):
             print('exsist', container.name)
             return True
     return False
+
+
+def handle_controls_section(event, window, values, currnet_container, containers):
+    if event == '-save-image-':
+        GeneratorHelper.SetContainerName(currnet_container, containers, values['-image-name-value-'])
+    if event == '-image-':
+        toggleVisibilityOfSectionImage(window, True)
+    if event == '-build-':
+        toggleVisibilityOfSectionBuild(window, True)
+    if event == '-ports-':
+        toggleVisibilityOfSectionPort(window, True)
+    if event == '-env-':
+        toggleVisibilityOfSectionEnv(window, True)
+    if event == '-depends-':
+        toggleVisibilityOfSectionDepends(window, True)
+
+
+def handle_button_visibility(window, container):
+    if container.portsCount == 0:
+        window['-remove-port-'].update(visible=False)
+    else:
+        window['-remove-port-'].update(visible=True)
+    if container.portsCount >= 8:
+        window['-add-port-'].update(visible=False)
+    else:
+        window['-add-port-'].update(visible=True)
+
+
+def handle_port_section(event, window, container):
+    if event == '-add-port-':
+        container.portsCount += 1
+        MenuLayout.toggle_ports_in_range(container.portsCount, True, window)
+    if event == '-remove-port-':
+        container.portsCount -= 1
+        MenuLayout.toggle_ports_in_range(container.portsCount, True, window)
