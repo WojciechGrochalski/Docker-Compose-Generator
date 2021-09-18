@@ -1,9 +1,8 @@
 class Depends:
     def __init__(self, dependency):
-        self.depends = []
-        self.depends.extend(dependency)
+        self.depends = dependency
 
 
 class Dependency:
     def __init__(self, dependency):
-        self.depends = f'- {dependency}'
+        self.depend = f'  - {dependency}'

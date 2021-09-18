@@ -1,5 +1,3 @@
-from models.Build import Build
-
 
 class Container:
     def __init__(self, name, image=None, build=None, ports=None, environments=None, depends=None):
@@ -10,5 +8,5 @@ class Container:
         self.environments = environments
         self.depends = depends
         self.portsCount = 1
-        self.environments = 1
-        self.dependsCout = 1
+        self.environmentsCount = 1
+        self.dependsCount = 1

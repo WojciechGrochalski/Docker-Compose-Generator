@@ -1,6 +1,5 @@
 import PySimpleGUI as sg
-
-from GeneratorHelper import GeneratorHelper
+from GeneratorHelper import Generator
 from models.Container import Container
 from models.Ports import Port
 from layout import Layout, MenuLayout
@@ -16,6 +15,9 @@ sg.theme('DarkTanBlue')
 
 menu = [
     [sg.Input(visible=False, key='-hiden-input-')],
+    [
+        sg.Text('Selected container:', key='-curr-container-', auto_size_text=True, pad=((0, 0), (0, 0)))
+    ],
     menuLayout.createContainersRow(containers),
     menuLayout.createElementsRow(),
     [sg.pin(sg.Frame(layout=[[sg.Col(menuLayout.createImageSection(), vertical_alignment='c')]],
@@ -52,20 +54,26 @@ app_layout = [
 ]
 
 window = sg.Window('Docker-Compose Generator', app_layout, size=(1200, 800), resizable=True,
-                   right_click_menu=sg.MENU_RIGHT_CLICK_EDITME_EXIT).finalize()
-
+                   right_click_menu=sg.MENU_RIGHT_CLICK_EDITME_EXIT)
+currnetContainer = None
 while True:
     event, values = window.read()
-    window['-input-'].update(GeneratorHelper.GenerateYaml(containers))
+    window['-input-'].update(Generator.GenerateYaml(containers))
     if event == sg.WINDOW_CLOSED or event == 'Quit':
         break
-    if Layout.handleContainerControls(containers, event):
-        currnetContainer = Layout.setCurrentContainer(containers, event)
-        Layout.toggleVisibilityOfSectionControls(window, True)
+    if Layout.is_set_container(containers, event):
+        # Set currnet container
+        currnetContainer = Layout.set_current_container(containers, event, window)
+        # set boot options
+        Layout.handle_start_visibility_of_all_section(window, currnetContainer)
+        Layout.clear_all_inputs(window)
+        window.refresh()
 
-    Layout.handle_button_visibility(window, currnetContainer)
-    Layout.handle_controls_section(event, window, values, currnetContainer, containers)
-    Layout.handle_port_section(event, window, currnetContainer)
-    Layout.handle_button_visibility(window, currnetContainer)
+    # Handle sections
+    Layout.handle_all_section(event, values, window, currnetContainer, containers)
+    # Generate yaml
+    window['-input-'].update(Generator.GenerateYaml(containers))
+    # Visibility
+    Layout.handle_all_button_visibility(window,currnetContainer)
 
 window.close()
