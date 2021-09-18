@@ -12,6 +12,7 @@ def createContainersRow(containers):
 def createElementsRow():
     return [
         sg.pin(sg.Text("Choose elements:", pad=((0, 0), (10, 0)), key="-controls-label-", visible=False)),
+        sg.pin(sg.Button('Name', pad=((5, 0), (10, 0)), enable_events=True, key="-name-", visible=False)),
         sg.pin(sg.Button('Image', pad=((5, 0), (10, 0)), enable_events=True, key="-image-", visible=False)),
         sg.pin(sg.Button('Build', pad=((10, 0), (10, 0)), enable_events=True, key="-build-", visible=False)),
         sg.pin(sg.Button('Ports', pad=((10, 0), (10, 0)), enable_events=True, key="-ports-", visible=False)),
@@ -19,10 +20,27 @@ def createElementsRow():
         sg.pin(sg.Button('Depends', pad=((10, 0), (10, 0)), enable_events=True, key="-depends-", visible=False))]
 
 
+def createNameSection():
+    return [
+        [
+            sg.pin(sg.Text("Container name: ", key='-container-name-', pad=((0, 0), (40, 0)), )),
+            sg.pin(sg.In(size=(25, 1), pad=((5, 0), (40, 0)), enable_events=True, key='-container-name-value-')),
+        ], [
+            sg.pin(sg.Button('Save', size=(12, 1), pad=((130, 0), (20, 0)), enable_events=True, key='-save-name-'))
+        ]
+    ]
+
+
+def save_container_name_section(values, window, container):
+    name = values['-container-name-value-']
+    window[f'-{container.key}-'].update(name)
+    container.name = values['-container-name-value-']
+
+
 def createImageSection():
     return [
         [
-            sg.pin(sg.Text("Container name: ", key='-image-name-', pad=((0, 0), (40, 0)), )),
+            sg.pin(sg.Text("Image: ", key='-image-name-', pad=((0, 0), (40, 0)), )),
             sg.pin(sg.In(size=(25, 1), pad=((5, 0), (40, 0)), enable_events=True, key='-image-name-value-')),
         ], [
             sg.pin(sg.Button('Save', size=(12, 1), pad=((130, 0), (20, 0)), enable_events=True, key='-save-image-'))
@@ -79,7 +97,7 @@ def toggle_ports_in_range(scope, state, window):
             window[f'-inner-port-label-{i}-'].update(visible=False)
             window[f'-inner-port-value-{i}-'].update(visible=False)
     else:
-        for i in range(1, scope+1):
+        for i in range(1, scope + 1):
             window[f'-outer-port-label-{i}-'].update(visible=state)
             window[f'-outer-port-value-{i}-'].update(visible=state)
             window[f'-inner-port-label-{i}-'].update(visible=state)
@@ -127,7 +145,7 @@ def toggle_env_in_range(scope, state, window):
             window[f'-env-label-{i}-'].update(visible=False)
             window[f'-env-value-{i}-'].update(visible=False)
     else:
-        for i in range(1, scope+1):
+        for i in range(1, scope + 1):
             window[f'-env-label-{i}-'].update(visible=state)
             window[f'-env-value-{i}-'].update(visible=state)
         for i in range(scope + 1, 11):
@@ -171,7 +189,7 @@ def toggle_depends_in_range(scope, state, window):
             window[f'-depends-label-{i}-'].update(visible=False)
             window[f'-depends-value-{i}-'].update(visible=False)
     else:
-        for i in range(1, scope+1):
+        for i in range(1, scope + 1):
             window[f'-depends-label-{i}-'].update(visible=state)
             window[f'-depends-value-{i}-'].update(visible=state)
         for i in range(scope + 1, 11):
