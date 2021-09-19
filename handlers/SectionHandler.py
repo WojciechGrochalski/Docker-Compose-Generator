@@ -17,7 +17,7 @@ class SectionHandler:
         # Name
         SectionHandler.handle_name_section(event, window, values, container)
         # Build
-        SectionHandler.handle_build_section(event, values,window,  container)
+        SectionHandler.handle_build_section(event, values, window, container)
         # Image
         SectionHandler.handle_image_section(event, values, window, container)
         # Ports
