@@ -138,7 +138,7 @@ class SectionHandler:
 
     @staticmethod
     def clear_all_inputs(window):
-        for i in range(1, 11):
+        for i in range(1, 9):
             window[f'-env-value-{i}-'].update('')
             window[f'-depends-value-{i}-'].update('')
             window[f'-outer-port-value-{i}-'].update('')

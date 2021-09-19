@@ -10,7 +10,11 @@ containers = [Container('Raven', randomname.get_name()),
               Container('redis', randomname.get_name()),
               Container('mongoDb', randomname.get_name())]
 
-sg.theme('DarkTanBlue')
+sg.theme('DarkBlack')
+sg.theme_background_color('#232733')
+sg.theme_text_element_background_color('#232733')
+sg.theme_border_width(0)
+
 
 window = sg.Window('Docker-Compose Generator', size=(1200, 800), resizable=True,
                    right_click_menu=sg.MENU_RIGHT_CLICK_EDITME_EXIT).layout(Layout.create_layout(containers))
@@ -24,7 +28,7 @@ while True:
         # Set currnet container
         currnetContainer = Layout.set_current_container(containers, event, window)
         # set boot options
-        SectionHandler.handle_start_visibility_of_all_section(window, currnetContainer)
+        #SectionHandler.handle_start_visibility_of_all_section(window, currnetContainer)
         SectionHandler.clear_all_inputs(window)
         window.refresh()
 

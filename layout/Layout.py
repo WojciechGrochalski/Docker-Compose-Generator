@@ -7,7 +7,7 @@ def appendButton(elements):
     for container in elements:
         array.append(sg.Button(container.name, enable_events=True, key=f'-{container.key}-'))
     array.append(sg.Button("Add container", enable_events=True, key=f'-add-container-'))
-    return array
+    return [array]
 
 
 def toggleVisibilityOfSectionName(window, state):
@@ -97,43 +97,51 @@ def is_set_container(containers, event):
 
 def create_layout(containers):
     menu = [
-        [sg.Input(visible=False, key='-hiden-input-')],
         [
             sg.Text('Selected container:', key='-curr-container-', auto_size_text=True, pad=((0, 0), (0, 0)))
         ],
-        MenuLayout.createContainersRow(containers),
         MenuLayout.createElementsRow(),
         [sg.pin(sg.Frame(layout=[[sg.Col(MenuLayout.createNameSection(), vertical_alignment='c')]],
-                         vertical_alignment='c', key='-container-name-section-', visible=False,
-                         pad=((0, 0), (0, 0)), title='', border_width=0, ))],
+                         vertical_alignment='c', key='-container-name-section-', visible=False, background_color='#232733',
+                         pad=((0, 0), (0, 0)), title='', border_width=0))],
         [sg.pin(sg.Frame(layout=[[sg.Col(MenuLayout.createImageSection(), vertical_alignment='c')]],
-                         vertical_alignment='c', key='-image-section-', visible=False,
-                         pad=((0, 0), (0, 0)), title='', border_width=0, ))],
+                         vertical_alignment='c', key='-image-section-', visible=False, background_color='#232733',
+                         pad=((0, 0), (0, 0)), title='', border_width=0))],
         [sg.pin(sg.Frame(layout=[[sg.Col(MenuLayout.createBuildSection(), vertical_alignment='c')]],
-                         vertical_alignment='c', key='-build-section-', visible=False,
-                         pad=((0, 0), (0, 0)), title='', border_width=0, ))],
-        [sg.pin(sg.Frame(layout=[[sg.Col(MenuLayout.createPortsSection(11), vertical_alignment='c')]],
-                         vertical_alignment='c', key='-ports-section-', visible=False,
+                         vertical_alignment='c', key='-build-section-', visible=False, background_color='#232733',
                          pad=((0, 0), (0, 0)), title='', border_width=0))],
-        [sg.pin(sg.Frame(layout=[[sg.Col(MenuLayout.createEnvSection(11), vertical_alignment='c')]],
-                         vertical_alignment='c', key='-env-section-', visible=False,
+        [sg.pin(sg.Frame(layout=[[sg.Col(MenuLayout.createPortsSection(), vertical_alignment='c')]],
+                         vertical_alignment='c', key='-ports-section-', visible=False, background_color='#232733',
                          pad=((0, 0), (0, 0)), title='', border_width=0))],
-        [sg.pin(sg.Frame(layout=[[sg.Col(MenuLayout.createDependsSection(11), vertical_alignment='c', )]],
-                         vertical_alignment='c', key='-depends-section-', visible=False,
+        [sg.pin(sg.Frame(layout=[[sg.Col(MenuLayout.createEnvSection(), vertical_alignment='c')]],
+                         vertical_alignment='c', key='-env-section-', visible=False, background_color='#232733',
+                         pad=((0, 0), (0, 0)), title='', border_width=0))],
+        [sg.pin(sg.Frame(layout=[[sg.Col(MenuLayout.createDependsSection(), vertical_alignment='c', )]],
+                         vertical_alignment='c', key='-depends-section-', visible=False, background_color='#232733',
                          pad=((0, 0), (0, 0)), title='', border_width=0))],
     ]
 
     intput = [
         [
-            sg.Text(auto_size_text=True, size=(100, 200), key="-input-")
+            sg.Text(auto_size_text=True, background_color='#1E1E1E', size=(100, 200), key="-input-")
         ]
+    ]
+
+    containers = [
+        [sg.Input(visible=False, key='-hiden-input-')],
+        [
+            sg.pin(sg.Frame(layout=[[sg.Col(MenuLayout.createContainersRow(containers), vertical_alignment='c')]],
+                            vertical_alignment='c', key='-containers-section-', background_color='#232733',
+                            pad=((0, 0), (20, 70)), title='', border_width=0))
+        ],
+        sg.HSeparator()
     ]
 
     return [
         [
-
+            containers,
             sg.Col(menu, pad=((20, 0), (50, 0)), expand_y=True, expand_x=True),
             sg.VSeparator(),
-            sg.Column(intput, pad=((20, 0), (150, 10)))
+            sg.Column(intput, pad=((20, 0), (70, 10)))
         ]
     ]

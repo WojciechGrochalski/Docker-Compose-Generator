@@ -11,13 +11,13 @@ def createContainersRow(containers):
 
 def createElementsRow():
     return [
-        sg.pin(sg.Text("Choose elements:", pad=((0, 0), (10, 0)), key="-controls-label-", visible=False)),
-        sg.pin(sg.Button('Name', pad=((5, 0), (10, 0)), enable_events=True, key="-name-", visible=False)),
-        sg.pin(sg.Button('Image', pad=((5, 0), (10, 0)), enable_events=True, key="-image-", visible=False)),
-        sg.pin(sg.Button('Build', pad=((10, 0), (10, 0)), enable_events=True, key="-build-", visible=False)),
-        sg.pin(sg.Button('Ports', pad=((10, 0), (10, 0)), enable_events=True, key="-ports-", visible=False)),
-        sg.pin(sg.Button('Enviroments', pad=((10, 0), (10, 0)), enable_events=True, key="-env-", visible=False)),
-        sg.pin(sg.Button('Depends', pad=((10, 0), (10, 0)), enable_events=True, key="-depends-", visible=False))]
+        sg.pin(sg.Text("Choose elements:", pad=((0, 0), (10, 0)), key="-controls-label-")),
+        sg.pin(sg.Button('Name', pad=((5, 0), (10, 0)), enable_events=True, key="-name-")),
+        sg.pin(sg.Button('Image', pad=((5, 0), (10, 0)), enable_events=True, key="-image-")),
+        sg.pin(sg.Button('Build', pad=((10, 0), (10, 0)), enable_events=True, key="-build-")),
+        sg.pin(sg.Button('Ports', pad=((10, 0), (10, 0)), enable_events=True, key="-ports-")),
+        sg.pin(sg.Button('Enviroments', pad=((10, 0), (10, 0)), enable_events=True, key="-env-")),
+        sg.pin(sg.Button('Depends', pad=((10, 0), (10, 0)), enable_events=True, key="-depends-"))]
 
 
 def createNameSection():
@@ -63,7 +63,7 @@ def createBuildSection():
     ]
 
 
-def createPortsSection(count=1):
+def createPortsSection(count=8):
     array = []
     array.extend(addAnotherSectionOfPorts(count))
     return array
@@ -78,7 +78,7 @@ def addAnotherSectionOfPorts(count):
     ]
     array.append(controls)
 
-    for i in range(1, count):
+    for i in range(1, count+1):
         inputs = [
             sg.pin(sg.Text("Outer port: ", pad=((0, 0), (40, 0)), enable_events=True, key=f"-outer-port-label-{i}-")),
             sg.pin(sg.In(size=(10, 1), pad=((5, 0), (40, 0)), enable_events=True, key=f'-outer-port-value-{i}-')),
@@ -89,9 +89,9 @@ def addAnotherSectionOfPorts(count):
     return array
 
 
-def toggle_ports_in_range(scope, state, window):
+def toggle_ports_in_range(scope, state, window, max_value=8):
     if scope == 0:
-        for i in range(1, 11):
+        for i in range(1, max_value + 1):
             window[f'-outer-port-label-{i}-'].update(visible=False)
             window[f'-outer-port-value-{i}-'].update(visible=False)
             window[f'-inner-port-label-{i}-'].update(visible=False)
@@ -102,7 +102,7 @@ def toggle_ports_in_range(scope, state, window):
             window[f'-outer-port-value-{i}-'].update(visible=state)
             window[f'-inner-port-label-{i}-'].update(visible=state)
             window[f'-inner-port-value-{i}-'].update(visible=state)
-        for i in range(scope + 1, 11):
+        for i in range(scope + 1, max_value + 1):
             window[f'-outer-port-label-{i}-'].update(visible=False)
             window[f'-outer-port-value-{i}-'].update(visible=False)
             window[f'-inner-port-label-{i}-'].update(visible=False)
@@ -161,7 +161,7 @@ def save_env_section(values, container):
     container.environments = envs
 
 
-def createDependsSection(count=1):
+def createDependsSection(count=7):
     array = []
     array.extend(addAnotherSectionOfDepends(count))
     return array
@@ -175,7 +175,7 @@ def addAnotherSectionOfDepends(count):
         sg.pin(sg.Button('Remove', size=(12, 1), pad=((10, 0), (20, 0)), enable_events=True, key='-remove-depends-')),
     ]
     array.append(controls)
-    for i in range(1, count):
+    for i in range(1, count+1):
         inputs = [
             sg.pin(sg.Text("Depends on: ", pad=((0, 0), (40, 0)), key=f"-depends-label-{i}-")),
             sg.pin(sg.In(size=(26, 1), pad=((5, 0), (40, 0)), enable_events=True, key=f'-depends-value-{i}-'))]
@@ -183,9 +183,9 @@ def addAnotherSectionOfDepends(count):
     return array
 
 
-def toggle_depends_in_range(scope, state, window):
+def toggle_depends_in_range(scope, state, window, max_value=7):
     if scope == 0:
-        for i in range(1, 11):
+        for i in range(1, max_value +1):
             window[f'-depends-label-{i}-'].update(visible=False)
             window[f'-depends-value-{i}-'].update(visible=False)
     else:
