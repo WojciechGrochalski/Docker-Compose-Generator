@@ -1,5 +1,6 @@
 import PySimpleGUI as sg
 
+from GeneratorHelper import Generator
 from layout.Sections.BuildSection import createBuildSection
 from layout.Sections.ContainerSection import create_container_section
 from layout.Sections.DependencySection import createDependsSection
@@ -8,6 +9,7 @@ from layout.Sections.ImageSection import createImageSection
 from layout.Sections.NameSection import create_name_section
 from layout.Sections.NavigationSection import create_navigation_section
 from layout.Sections.PortSection import createPortsSection
+from layout.Sections.VersionSection import create_version_section
 
 
 def toggleVisibilityOfSectionName(window, state):
@@ -18,6 +20,7 @@ def toggleVisibilityOfSectionName(window, state):
         toggleVisibilityOfSectionEnv(window, False)
         toggleVisibilityOfSectionPort(window, False)
         toggleVisibilityOfSectionDepends(window, False)
+        toggleVisibilityOfSectionVersion(window, False)
 
 
 def toggleVisibilityOfSectionImage(window, state):
@@ -28,6 +31,7 @@ def toggleVisibilityOfSectionImage(window, state):
         toggleVisibilityOfSectionEnv(window, False)
         toggleVisibilityOfSectionPort(window, False)
         toggleVisibilityOfSectionDepends(window, False)
+        toggleVisibilityOfSectionVersion(window, False)
 
 
 def toggleVisibilityOfSectionBuild(window, state):
@@ -38,6 +42,7 @@ def toggleVisibilityOfSectionBuild(window, state):
         toggleVisibilityOfSectionEnv(window, False)
         toggleVisibilityOfSectionPort(window, False)
         toggleVisibilityOfSectionDepends(window, False)
+        toggleVisibilityOfSectionVersion(window, False)
 
 
 def toggleVisibilityOfSectionPort(window, state):
@@ -48,6 +53,7 @@ def toggleVisibilityOfSectionPort(window, state):
         toggleVisibilityOfSectionBuild(window, False)
         toggleVisibilityOfSectionEnv(window, False)
         toggleVisibilityOfSectionDepends(window, False)
+        toggleVisibilityOfSectionVersion(window, False)
 
 
 def toggleVisibilityOfSectionEnv(window, state):
@@ -58,6 +64,7 @@ def toggleVisibilityOfSectionEnv(window, state):
         toggleVisibilityOfSectionBuild(window, False)
         toggleVisibilityOfSectionPort(window, False)
         toggleVisibilityOfSectionDepends(window, False)
+        toggleVisibilityOfSectionVersion(window, False)
 
 
 def toggleVisibilityOfSectionDepends(window, state):
@@ -68,6 +75,18 @@ def toggleVisibilityOfSectionDepends(window, state):
         toggleVisibilityOfSectionBuild(window, False)
         toggleVisibilityOfSectionPort(window, False)
         toggleVisibilityOfSectionEnv(window, False)
+        toggleVisibilityOfSectionVersion(window, False)
+
+
+def toggleVisibilityOfSectionVersion(window, state):
+    window['-version-section-'].update(visible=state)
+    if state:
+        toggleVisibilityOfSectionName(window, False)
+        toggleVisibilityOfSectionImage(window, False)
+        toggleVisibilityOfSectionBuild(window, False)
+        toggleVisibilityOfSectionPort(window, False)
+        toggleVisibilityOfSectionEnv(window, False)
+        toggleVisibilityOfSectionDepends(window, False)
 
 
 def toggle_visibilit_of_section_controls(window, state):
@@ -98,7 +117,7 @@ def is_set_container(containers, event):
 def create_layout(containers):
     menu = [
         [
-            sg.Text('Selected container:', key='-curr-container-', auto_size_text=True, pad=((0, 0), (0, 0)))
+            sg.Text('Selected container: Container', key='-curr-container-', auto_size_text=True, pad=((0, 0), (0, 0)))
         ],
         [sg.pin(sg.Frame(layout=[[sg.Col(create_navigation_section(), vertical_alignment='c')]],
                          vertical_alignment='c', key='-navigation-section-',
@@ -123,11 +142,15 @@ def create_layout(containers):
         [sg.pin(sg.Frame(layout=[[sg.Col(createDependsSection(2), vertical_alignment='c', )]],
                          vertical_alignment='c', key='-depends-section-', visible=False, background_color='#232733',
                          pad=((0, 0), (0, 0)), title='', border_width=0))],
+        [sg.pin(sg.Frame(layout=[[sg.Col(create_version_section(), vertical_alignment='c')]],
+                         vertical_alignment='c', key='-version-section-',
+                         background_color='#232733', visible=False,
+                         pad=((0, 0), (0, 0)), title='', border_width=0))]
     ]
 
     intput = [
         [
-            sg.Text(auto_size_text=True, background_color='#1E1E1E', size=(100, 200), key="-input-")
+            sg.Text(Generator.GenerateYaml(containers), auto_size_text=True, background_color='#1E1E1E', size=(100, 200), key="-input-")
         ]
     ]
 
@@ -139,7 +162,8 @@ def create_layout(containers):
                             pad=((0, 0), (20, 30)), title='', border_width=0))
         ],
         [
-            sg.Button("Add container", enable_events=True, key=f'-add-container-', pad=((10, 0), (0, 10))),
+            sg.Button("Add container", enable_events=True, key='-add-container-', pad=((10, 0), (0, 10))),
+            sg.Button("Select version", enable_events=True, key='-select-version-', pad=((10, 0), (0, 10))),
         ],
         sg.HSeparator()
     ]
@@ -147,7 +171,7 @@ def create_layout(containers):
     return [
         [
             containers,
-            sg.Col(menu, pad=((20, 0), (50, 0)), expand_y=True, expand_x=True),
+            sg.Col(menu, pad=((20, 0), (20, 0)), expand_y=True, expand_x=True),
             sg.VSeparator(),
             sg.Column(intput, pad=((20, 0), (20, 10)))
         ]

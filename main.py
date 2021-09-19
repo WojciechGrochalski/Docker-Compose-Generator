@@ -21,6 +21,8 @@ window = sg.Window('Docker-Compose Generator', size=(1200, 800), resizable=True,
 
 while True:
     event, values = window.read()
+    # Generate YAML
+    window['-input-'].update(Generator.GenerateYaml(containers))
     if event == sg.WINDOW_CLOSED or event == 'Quit':
         break
     if Layout.is_set_container(containers, event):
@@ -30,14 +32,14 @@ while True:
         window.refresh()
     window['-input-'].update(Generator.GenerateYaml(containers))
     # Handle sections
-    SectionHandler.handle_all_section(event, values, window, currnetContainer, containers)
-    # Generate yaml
-    window['-input-'].update(Generator.GenerateYaml(containers))
+    SectionHandler.handle_all_section(event, values, window, currnetContainer)
     if event == '-add-container-':
         scope += 1
         containers[scope].active = True
+        currnetContainer = containers[scope]
+        SectionHandler.clear_all_inputs(window)
         handle_containers_visibility(window, scope, containers)
-
+    # Generate YAML
     window['-input-'].update(Generator.GenerateYaml(containers))
 
 window.close()

@@ -19,3 +19,7 @@ def save_container_name_section(values, window, container):
     name = values['-container-name-value-']
     window[container.key].update(name)
     container.name = values['-container-name-value-']
+
+
+def clear_name_section(window):
+    window['-container-name-value-'].update('')
