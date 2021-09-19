@@ -1,4 +1,3 @@
-from GeneratorHelper import Generator
 from layout import Layout
 from layout.Sections.BuildSection import save_build_section, reset_build_value, clear_build_section
 from layout.Sections.DependencySection import save_depends_section, clear_dependency_section
