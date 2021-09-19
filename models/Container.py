@@ -1,5 +1,5 @@
 class Container:
-    def __init__(self, name, key, image=None, build=None, ports=None, environments=None, depends=None):
+    def __init__(self, name, key, active=False, image=None, build=None, ports=None, environments=None, depends=None):
         self.name = name
         self.key = key
         self.image = image
@@ -10,3 +10,4 @@ class Container:
         self.portsCount = 1
         self.environmentsCount = 1
         self.dependsCount = 1
+        self.active = active
