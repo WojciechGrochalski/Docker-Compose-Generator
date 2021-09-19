@@ -12,7 +12,7 @@ class SectionHandler:
 
     @staticmethod
     def handle_all_section(event, values, window, container):
-        # Controls
+        # Controls TODO add volumines command network
         SectionHandler.handle_controls_section(event, window)
         # Name
         SectionHandler.handle_name_section(event, window, values, container)

@@ -69,7 +69,7 @@ class Generator:
 
     @staticmethod
     def GenerateYaml(containers):
-        docker_compose = f'version:  "{Generator.version}"' + endline + 'services:' + endline
+        docker_compose = f'\nversion:  "{Generator.version}"' + endline * 2 + 'services:' + endline * 2
         for container in containers:
             if container.active:
                 docker_compose += indent + container.name + ':' + endline

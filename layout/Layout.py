@@ -139,7 +139,7 @@ def create_layout(containers):
         [sg.pin(sg.Frame(layout=[[sg.Col(createEnvSection(), vertical_alignment='c')]],
                          vertical_alignment='c', key='-env-section-', visible=False, background_color='#232733',
                          pad=((0, 0), (0, 0)), title='', border_width=0))],
-        [sg.pin(sg.Frame(layout=[[sg.Col(createDependsSection(2), vertical_alignment='c', )]],
+        [sg.pin(sg.Frame(layout=[[sg.Col(createDependsSection(), vertical_alignment='c', )]],
                          vertical_alignment='c', key='-depends-section-', visible=False, background_color='#232733',
                          pad=((0, 0), (0, 0)), title='', border_width=0))],
         [sg.pin(sg.Frame(layout=[[sg.Col(create_version_section(), vertical_alignment='c')]],
@@ -150,7 +150,8 @@ def create_layout(containers):
 
     intput = [
         [
-            sg.Text(Generator.GenerateYaml(containers), auto_size_text=True, background_color='#1E1E1E', size=(100, 200), key="-input-")
+            sg.Text(Generator.GenerateYaml(containers), auto_size_text=True, expand_x=True, background_color='#1E1E1E',
+                    size=(100, 200), key="-input-")
         ]
     ]
 
@@ -171,8 +172,8 @@ def create_layout(containers):
     return [
         [
             containers,
-            sg.Col(menu, pad=((20, 0), (20, 0)), expand_y=True, expand_x=True),
+            sg.Col(menu, pad=((20, 0), (20, 0)), expand_y=True),
             sg.VSeparator(),
-            sg.Column(intput, pad=((20, 0), (20, 10)))
+            sg.Column(intput, pad=((20, 0), (20, 10)), expand_x=True)
         ]
     ]
