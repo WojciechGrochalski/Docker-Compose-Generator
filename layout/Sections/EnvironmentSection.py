@@ -15,14 +15,13 @@ def createEnvSection(count=8):
 def addAnotherSectionOfEnv(count):
     array = []
     controls = [
-        sg.pin(sg.Button('Save', size=(12, 1), pad=((10, 0), (20, 20)), enable_events=True, key='-save-env-')),
-        sg.pin(sg.Text('Environment', font='16', pad=((100, 0), (20, 20)), key='-label-env-'))
+        sg.pin(sg.Text('Environment', font='16', pad=((220, 0), (20, 20)), key='-label-env-'))
     ]
     array.append(controls)
     for i in range(1, count + 1):
         inputs = [
-            sg.pin(sg.Text("Enviroment variable: ", font='8', pad=((80, 0), (20, 0)), key=f'-env-label-{i}-')),
-            sg.pin(sg.In(size=(26, 1), pad=((5, 0), (20, 0)), enable_events=True, key=f'-env-value-{i}-'))]
+            sg.pin(sg.Text("Enviroment variable: ", font='12', pad=((50, 0), (20, 0)), key=f'-env-label-{i}-')),
+            sg.pin(sg.In(size=(26, 1), font='12', pad=((5, 0), (20, 0)), enable_events=True, key=f'-env-value-{i}-'))]
         array.append(inputs)
     return array
 
@@ -30,8 +29,8 @@ def addAnotherSectionOfEnv(count):
 def save_env_section(values, container):
     envs = []
     for i in range(1, scope + 1):
-        enviroment = Environment(values[f'-env-value-{i}-'])
-        envs.append(enviroment.enviroment)
+        environment = Environment(values[f'-env-value-{i}-'])
+        envs.append(environment.environment)
     container.environments = envs
 
 

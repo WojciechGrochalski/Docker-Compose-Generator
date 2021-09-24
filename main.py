@@ -6,10 +6,11 @@ from models.Container import Container
 from layout import Layout
 
 containers = [Container('Container', '-container-0-', True)]
-currnetContainer = containers[0]
+currentContainer = containers[0]
 scope = 0
 for i in range(1, 10):
     containers.append(Container('Container', f'-container-{i}-', False))
+
 
 sg.theme('DarkBlack')
 sg.theme_background_color('#232733')
@@ -26,17 +27,17 @@ while True:
     if event == sg.WINDOW_CLOSED or event == 'Quit':
         break
     if Layout.is_set_container(containers, event):
-        # Set currnet container
-        currnetContainer = Layout.set_current_container(containers, event, window)
+        # Set current container
+        currentContainer = Layout.set_current_container(containers, event, window)
         SectionHandler.clear_all_inputs(window)
         window.refresh()
     window['-input-'].update(Generator.GenerateYaml(containers))
     # Handle sections
-    SectionHandler.handle_all_section(event, values, window, currnetContainer)
+    SectionHandler.handle_all_section(event, values, window, currentContainer)
     if event == '-add-container-':
         scope += 1
         containers[scope].active = True
-        currnetContainer = containers[scope]
+        currentContainer = containers[scope]
         SectionHandler.clear_all_inputs(window)
         handle_containers_visibility(window, scope, containers)
     # Generate YAML

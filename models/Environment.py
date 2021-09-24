@@ -1,6 +1,6 @@
 class Environment:
     def __init__(self, environment):
         if environment:
-            self.enviroment = f'  - {environment}"'
+            self.environment = f'  - {environment}'
         else:
-            self.enviroment = ''
+            self.environment = ''

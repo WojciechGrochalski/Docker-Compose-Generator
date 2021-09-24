@@ -14,10 +14,10 @@ def add_blank_containers_section(containers):
     for container in containers:
         if i == 0:
             containers_section.append(
-                sg.pin(sg.Button(container.name, enable_events=True, key=f'-container-{i}-', visible=True)))
+                sg.pin(sg.Button(container.name, font='19', enable_events=True, key=f'-container-{i}-', visible=True)))
         else:
             containers_section.append(
-                sg.pin(sg.Button(container.name, enable_events=True, key=f'-container-{i}-', visible=False)))
+                sg.pin(sg.Button(container.name, font='19', enable_events=True, key=f'-container-{i}-', visible=False)))
         i += 1
     array.append(containers_section)
     return array

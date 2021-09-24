@@ -6,6 +6,7 @@ from layout.Sections.ImageSection import save_container_image_section, reset_ima
 from layout.Sections.NameSection import save_container_name_section, clear_name_section
 from layout.Sections.PortSection import save_port_section, clear_port_section
 from layout.Sections.VersionSection import save_version_section
+from layout.Sections.VolumesSection import clear_volume_section, save_volume_section
 
 
 class SectionHandler:
@@ -21,13 +22,15 @@ class SectionHandler:
         # Image
         SectionHandler.handle_image_section(event, values, window, container)
         # Ports
-        SectionHandler.handle_port_section(event, values, container)
+        SectionHandler.handle_port_section(values, container)
         # Environment
-        SectionHandler.handle_env_section(event, values, container)
+        SectionHandler.handle_env_section(values, container)
         # Dependency
-        SectionHandler.handle_depends_section(event, values, container)
+        SectionHandler.handle_depends_section(values, container)
         # Version
         SectionHandler.handle_version_section(event, values)
+        # Volumes
+        SectionHandler.handle_volume_section(values, container)
 
     @staticmethod
     def handle_controls_section(event, window):
@@ -43,6 +46,8 @@ class SectionHandler:
             Layout.toggleVisibilityOfSectionEnv(window, True)
         if event == '-depends-':
             Layout.toggleVisibilityOfSectionDepends(window, True)
+        if event == '-volumes-':
+            Layout.toggleVisibilityOfSectionVolumes(window, True)
         if event == '-select-version-':
             Layout.toggleVisibilityOfSectionVersion(window, True)
 
@@ -52,9 +57,12 @@ class SectionHandler:
             save_version_section(values)
 
     @staticmethod
-    def handle_env_section(event, values, container):
-        if event == '-save-env-':
-            save_env_section(values, container)
+    def handle_env_section(values, container):
+        save_env_section(values, container)
+
+    @staticmethod
+    def handle_volume_section(values, container):
+        save_volume_section(values, container)
 
     @staticmethod
     def handle_name_section(event, window, values, container):
@@ -62,14 +70,12 @@ class SectionHandler:
             save_container_name_section(values, window, container)
 
     @staticmethod
-    def handle_port_section(event, values, container):
-        if event == '-save-port-':
-            save_port_section(values, container)
+    def handle_port_section(values, container):
+        save_port_section(values, container)
 
     @staticmethod
-    def handle_depends_section(event, values, container):
-        if event == '-save-depends-':
-            save_depends_section(values, container)
+    def handle_depends_section(values, container):
+        save_depends_section(values, container)
 
     @staticmethod
     def handle_image_section(event, values, window, container):
@@ -93,3 +99,4 @@ class SectionHandler:
         clear_build_section(window)
         clear_image_section(window)
         clear_name_section(window)
+        clear_volume_section(window)

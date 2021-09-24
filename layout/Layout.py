@@ -1,5 +1,4 @@
 import PySimpleGUI as sg
-
 from GeneratorHelper import Generator
 from layout.Sections.BuildSection import createBuildSection
 from layout.Sections.ContainerSection import create_container_section
@@ -10,6 +9,7 @@ from layout.Sections.NameSection import create_name_section
 from layout.Sections.NavigationSection import create_navigation_section
 from layout.Sections.PortSection import createPortsSection
 from layout.Sections.VersionSection import create_version_section
+from layout.Sections.VolumesSection import create_volume_section
 
 
 def toggleVisibilityOfSectionName(window, state):
@@ -21,6 +21,7 @@ def toggleVisibilityOfSectionName(window, state):
         toggleVisibilityOfSectionPort(window, False)
         toggleVisibilityOfSectionDepends(window, False)
         toggleVisibilityOfSectionVersion(window, False)
+        toggleVisibilityOfSectionVolumes(window, False)
 
 
 def toggleVisibilityOfSectionImage(window, state):
@@ -32,6 +33,7 @@ def toggleVisibilityOfSectionImage(window, state):
         toggleVisibilityOfSectionPort(window, False)
         toggleVisibilityOfSectionDepends(window, False)
         toggleVisibilityOfSectionVersion(window, False)
+        toggleVisibilityOfSectionVolumes(window, False)
 
 
 def toggleVisibilityOfSectionBuild(window, state):
@@ -43,6 +45,7 @@ def toggleVisibilityOfSectionBuild(window, state):
         toggleVisibilityOfSectionPort(window, False)
         toggleVisibilityOfSectionDepends(window, False)
         toggleVisibilityOfSectionVersion(window, False)
+        toggleVisibilityOfSectionVolumes(window, False)
 
 
 def toggleVisibilityOfSectionPort(window, state):
@@ -54,6 +57,7 @@ def toggleVisibilityOfSectionPort(window, state):
         toggleVisibilityOfSectionEnv(window, False)
         toggleVisibilityOfSectionDepends(window, False)
         toggleVisibilityOfSectionVersion(window, False)
+        toggleVisibilityOfSectionVolumes(window, False)
 
 
 def toggleVisibilityOfSectionEnv(window, state):
@@ -65,6 +69,7 @@ def toggleVisibilityOfSectionEnv(window, state):
         toggleVisibilityOfSectionPort(window, False)
         toggleVisibilityOfSectionDepends(window, False)
         toggleVisibilityOfSectionVersion(window, False)
+        toggleVisibilityOfSectionVolumes(window, False)
 
 
 def toggleVisibilityOfSectionDepends(window, state):
@@ -75,6 +80,19 @@ def toggleVisibilityOfSectionDepends(window, state):
         toggleVisibilityOfSectionBuild(window, False)
         toggleVisibilityOfSectionPort(window, False)
         toggleVisibilityOfSectionEnv(window, False)
+        toggleVisibilityOfSectionVersion(window, False)
+        toggleVisibilityOfSectionVolumes(window, False)
+
+
+def toggleVisibilityOfSectionVolumes(window, state):
+    window['-volumes-section-'].update(visible=state)
+    if state:
+        toggleVisibilityOfSectionName(window, False)
+        toggleVisibilityOfSectionImage(window, False)
+        toggleVisibilityOfSectionBuild(window, False)
+        toggleVisibilityOfSectionPort(window, False)
+        toggleVisibilityOfSectionEnv(window, False)
+        toggleVisibilityOfSectionDepends(window, False)
         toggleVisibilityOfSectionVersion(window, False)
 
 
@@ -87,16 +105,7 @@ def toggleVisibilityOfSectionVersion(window, state):
         toggleVisibilityOfSectionPort(window, False)
         toggleVisibilityOfSectionEnv(window, False)
         toggleVisibilityOfSectionDepends(window, False)
-
-
-def toggle_visibilit_of_section_controls(window, state):
-    window['-controls-label-'].update(visible=state)
-    window['-name-'].update(visible=state)
-    window['-image-'].update(visible=state)
-    window['-build-'].update(visible=state)
-    window['-ports-'].update(visible=state)
-    window['-env-'].update(visible=state)
-    window['-depends-'].update(visible=state)
+        toggleVisibilityOfSectionVolumes(window, False)
 
 
 def set_current_container(containers, event, window):
@@ -117,7 +126,8 @@ def is_set_container(containers, event):
 def create_layout(containers):
     menu = [
         [
-            sg.Text('Selected container: Container', key='-curr-container-', auto_size_text=True, pad=((0, 0), (0, 0)))
+            sg.Text('Selected container: Container', font='16', key='-curr-container-', auto_size_text=True,
+                    pad=((2, 0), (0, 0)))
         ],
         [sg.pin(sg.Frame(layout=[[sg.Col(create_navigation_section(), vertical_alignment='c')]],
                          vertical_alignment='c', key='-navigation-section-',
@@ -142,29 +152,33 @@ def create_layout(containers):
         [sg.pin(sg.Frame(layout=[[sg.Col(createDependsSection(), vertical_alignment='c', )]],
                          vertical_alignment='c', key='-depends-section-', visible=False, background_color='#232733',
                          pad=((0, 0), (0, 0)), title='', border_width=0))],
+        [sg.pin(sg.Frame(layout=[[sg.Col(create_volume_section(), vertical_alignment='c', )]],
+                         vertical_alignment='c', key='-volumes-section-', visible=False, background_color='#232733',
+                         pad=((0, 0), (0, 0)), title='', border_width=0))],
         [sg.pin(sg.Frame(layout=[[sg.Col(create_version_section(), vertical_alignment='c')]],
                          vertical_alignment='c', key='-version-section-',
                          background_color='#232733', visible=False,
                          pad=((0, 0), (0, 0)), title='', border_width=0))]
     ]
 
-    intput = [
+    docker_compose_text = [
         [
-            sg.Text(Generator.GenerateYaml(containers), auto_size_text=True, expand_x=True, background_color='#1E1E1E',
+            sg.Text(Generator.GenerateYaml(containers), font='15', auto_size_text=True, expand_x=True,
+                    background_color='#1E1E1E',
                     size=(100, 200), key="-input-")
         ]
     ]
 
     containers = [
-        [sg.Input(visible=False, key='-hiden-input-')],
+        [sg.Input(visible=False, key='-hidden-input-')],
         [
             sg.pin(sg.Frame(layout=[[sg.Col(create_container_section(containers), vertical_alignment='c')]],
                             vertical_alignment='c', key='-containers-section-', background_color='#232733',
                             pad=((0, 0), (20, 30)), title='', border_width=0))
         ],
         [
-            sg.Button("Add container", enable_events=True, key='-add-container-', pad=((10, 0), (0, 10))),
-            sg.Button("Select version", enable_events=True, key='-select-version-', pad=((10, 0), (0, 10))),
+            sg.Button("Add container", font='16', enable_events=True, key='-add-container-', pad=((10, 0), (0, 10))),
+            sg.Button("Select version", font='16', enable_events=True, key='-select-version-', pad=((10, 0), (0, 10))),
         ],
         sg.HSeparator()
     ]
@@ -174,6 +188,6 @@ def create_layout(containers):
             containers,
             sg.Col(menu, pad=((20, 0), (20, 0)), expand_y=True),
             sg.VSeparator(),
-            sg.Column(intput, pad=((20, 0), (20, 10)), expand_x=True)
+            sg.Column(docker_compose_text, pad=((20, 0), (20, 10)), expand_x=True)
         ]
     ]
