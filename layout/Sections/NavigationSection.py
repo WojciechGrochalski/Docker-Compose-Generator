@@ -13,6 +13,6 @@ def create_navigation_section():
             sg.pin(sg.Button('Depends', font='16', pad=((10, 0), (10, 0)), enable_events=True, key="-depends-"))
         ],
         [
-            sg.pin(sg.Button('Volumes', font='16', pad=((120, 0), (10, 0)), enable_events=True, key="-volumes-"))
+            sg.pin(sg.Button('Volumes', font='16', pad=((138, 0), (10, 0)), enable_events=True, key="-volumes-"))
         ]
     ]

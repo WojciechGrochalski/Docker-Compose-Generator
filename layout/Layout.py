@@ -163,6 +163,12 @@ def create_layout(containers):
 
     docker_compose_text = [
         [
+            sg.pin(sg.Button('Import Docker-Compose', font='16', pad=((10, 0), (10, 0)), enable_events=True,
+                             key="-import-file-")),
+            sg.pin(sg.Button('Export Docker-Compose', font='16', pad=((10, 0), (10, 0)), enable_events=True,
+                             key="-export-file-"))
+        ],
+        [
             sg.Text(Generator.GenerateYaml(containers), font='15', auto_size_text=True, expand_x=True,
                     background_color='#1E1E1E',
                     size=(100, 200), key="-input-")
@@ -188,6 +194,6 @@ def create_layout(containers):
             containers,
             sg.Col(menu, pad=((20, 0), (20, 0)), expand_y=True),
             sg.VSeparator(),
-            sg.Column(docker_compose_text, pad=((20, 0), (20, 10)), expand_x=True)
+            sg.Column(docker_compose_text, pad=((20, 0), (20, 10)), expand_x=True, expand_y=True)
         ]
     ]

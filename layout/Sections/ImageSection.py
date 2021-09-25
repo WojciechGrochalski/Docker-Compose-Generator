@@ -10,7 +10,7 @@ def createImageSection():
             sg.pin(sg.Text("Container image: ", font='12', key='-image-name-', pad=((50, 0), (20, 0)), )),
             sg.pin(sg.In(size=(25, 1), font='12', pad=((5, 0), (20, 0)), enable_events=True, key='-image-name-value-')),
         ], [
-            sg.pin(sg.Button('Apply', font='14', size=(12, 1), pad=((160, 0), (20, 0)), enable_events=True, key='-save-image-')),
+            sg.pin(sg.Button('Apply', font='14', size=(12, 1), pad=((170, 0), (20, 0)), enable_events=True, key='-save-image-')),
             sg.pin(sg.Button('Reset', font='14', size=(12, 1), pad=((10, 0), (20, 0)), enable_events=True, key='-reset-image-'))
         ]
     ]

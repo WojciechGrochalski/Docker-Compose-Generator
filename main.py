@@ -1,9 +1,10 @@
 import PySimpleGUI as sg
+
 from GeneratorHelper import Generator
 from handlers.SectionHandler import SectionHandler
+from layout import Layout
 from layout.Sections.ContainerSection import handle_containers_visibility
 from models.Container import Container
-from layout import Layout
 
 containers = [Container('Container', '-container-0-', True)]
 currentContainer = containers[0]
@@ -11,13 +12,12 @@ scope = 0
 for i in range(1, 10):
     containers.append(Container('Container', f'-container-{i}-', False))
 
-
 sg.theme('DarkBlack')
 sg.theme_background_color('#232733')
 sg.theme_text_element_background_color('#232733')
 sg.theme_border_width(0)
 
-window = sg.Window('Docker-Compose Generator', size=(1200, 800), resizable=True,
+window = sg.Window('Docker-Compose Generator', size=(1200, 900), resizable=True,
                    right_click_menu=sg.MENU_RIGHT_CLICK_EDITME_EXIT).layout(Layout.create_layout(containers))
 
 while True:
