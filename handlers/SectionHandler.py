@@ -104,8 +104,9 @@ class SectionHandler:
         if event == '-export-file-':
             path = sg.popup_get_file('', no_window=True, save_as=True,
                                      file_types=(('YAM', '.yam'), ('YAML', '.yaml')))
-            with open(path, 'w') as file:
-                file.write(Generator.GenerateYaml(containers))
+            if path != '':
+                with open(path, 'w') as file:
+                    file.write(Generator.GenerateYaml(containers))
 
     @staticmethod
     def handle_import_button(window, containers):
