@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+
 from models.Environment import Environment
 
 scope = 0
@@ -32,6 +33,7 @@ def save_env_section(values, container):
         environment = Environment(values[f'-env-value-{i}-'])
         envs.append(environment.environment)
     container.environments = envs
+    container.environmentsCount = len(envs)
 
 
 def clear_environment_section(window):

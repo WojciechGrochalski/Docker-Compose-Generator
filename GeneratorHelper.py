@@ -1,3 +1,10 @@
+from models.Build import Build
+from models.Container import Container
+from models.Depends import Dependency
+from models.Environment import Environment
+from models.Ports import Port
+from models.Volume import Volume
+
 endLine = '\n'
 indent = '   '
 
@@ -30,9 +37,9 @@ class Generator:
     @staticmethod
     def get_dependency(container):
         container_dependency = ''
-        for dependency in container.depends:
+        for dependency in container.dependency:
             if dependency:
-                if dependency is container.depends[0]:
+                if dependency is container.dependency[0]:
                     container_dependency += dependency + endLine
                 else:
                     container_dependency += indent * 2 + dependency + endLine
@@ -63,7 +70,6 @@ class Generator:
                 else:
                     volumes += indent * 2 + volume + endLine
         return volumes
-
 
     @staticmethod
     def SetContainerName(selected_container, containers, container_name):
@@ -102,8 +108,8 @@ class Generator:
                     docker_compose += indent * 2 + 'environment:' + endLine
                     docker_compose += indent * 2 + Generator.get_environments(container)
                 # Dependency
-                if container.depends is not None and container.dependsCount > 0 \
-                        and len(container.depends[0]) > 0:
+                if container.dependency is not None and container.dependsCount > 0 \
+                        and len(container.dependency[0]) > 0:
                     docker_compose += indent * 2 + 'depends_on:' + endLine
                     docker_compose += indent * 2 + Generator.get_dependency(container)
                 # Volumes
@@ -114,3 +120,61 @@ class Generator:
 
                 docker_compose += endLine
         return docker_compose
+
+    @staticmethod
+    def GetYamlFromFile(window, containers, yaml):
+        i = 0
+        name = ''
+        key = f'-container-{i}-'
+        image = None
+        build = None
+        ports = None
+        environments = None
+        depends = None
+        volumes = None
+        for container in yaml['services']:
+            data = yaml['services'][container]
+            name = container
+            if 'build' in data:
+                build = Build(data['build']['dockerfile'], data['build']['context'])
+            if 'image' in data:
+                image = data['image']
+            if 'ports' in data:
+                ports = []
+                for port in data['ports']:
+                    splited_port = port.split(':')
+                    new_port = Port(splited_port[0], splited_port[1])
+                    ports.append(new_port.port)
+            if 'environment' in data:
+                environments = []
+                for environment in data['environment']:
+                    env = Environment(environment)
+                    environments.append(env.environment)
+            if 'depends_on' in data:
+                depends = []
+                for dependency in data['depends_on']:
+                    deps = Dependency(dependency)
+                    depends.append(deps.dependency)
+            if 'volumes' in data:
+                volumes = []
+                for volume in data['volumes']:
+                    new_volume = Volume(volume)
+                    volumes.append(new_volume.volume)
+            key = f'-container-{i}-'
+            containers[i] = Container(name, key, True, image, build, ports, environments, depends, volumes)
+            containers[i] = Generator.SetCountersForContainer(containers[i], ports, environments, depends, volumes)
+            window[key].update(name)
+            i += 1
+        return containers, i
+
+    @staticmethod
+    def SetCountersForContainer(container, ports, evns, depends, volumes):
+        if ports is not None:
+            container.portsCount = len(ports)
+        if evns is not None:
+            container.environmentsCount = len(evns)
+        if depends is not None:
+            container.dependsCount = len(depends)
+        if volumes is not None:
+            container.volumesCount = len(volumes)
+        return container

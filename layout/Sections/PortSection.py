@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+
 from models.Ports import Port
 
 scope = 0
@@ -24,11 +25,13 @@ def addAnotherSectionOfPorts(count):
             sg.pin(
                 sg.Text("Outer port: ", font='12', pad=((50, 0), (20, 0)), enable_events=True,
                         key=f"-outer-port-label-{i}-")),
-            sg.pin(sg.In(size=(12, 1), font='12', pad=((5, 0), (20, 0)), enable_events=True, key=f'-outer-port-value-{i}-')),
+            sg.pin(sg.In(size=(12, 1), font='12', pad=((5, 0), (20, 0)), enable_events=True,
+                         key=f'-outer-port-value-{i}-')),
             sg.pin(
                 sg.Text("Inner port: ", font='12', pad=((10, 0), (20, 0)), enable_events=True,
                         key=f"-inner-port-label-{i}-")),
-            sg.pin(sg.In(size=(12, 1), font='12', pad=((5, 0), (20, 0)), enable_events=True, key=f'-inner-port-value-{i}-'))]
+            sg.pin(sg.In(size=(12, 1), font='12', pad=((5, 0), (20, 0)), enable_events=True,
+                         key=f'-inner-port-value-{i}-'))]
 
         array.append(inputs)
     return array
@@ -40,6 +43,7 @@ def save_port_section(values, container):
         port = Port(values[f'-outer-port-value-{i}-'], values[f'-inner-port-value-{i}-'])
         ports.append(port.port)
     container.ports = ports
+    container.portsCount = len(ports)
 
 
 def clear_port_section(window):

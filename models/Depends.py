@@ -1,6 +1,6 @@
 class Dependency:
     def __init__(self, dependency):
         if dependency:
-            self.depend = f'  - {dependency}'
+            self.dependency = f'  - {dependency}'
         else:
-            self.depend = ''
+            self.dependency = ''

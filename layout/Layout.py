@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+
 from GeneratorHelper import Generator
 from layout.Sections.BuildSection import createBuildSection
 from layout.Sections.ContainerSection import create_container_section
@@ -163,15 +164,16 @@ def create_layout(containers):
 
     docker_compose_text = [
         [
-            sg.pin(sg.Button('Import Docker-Compose', font='16', pad=((10, 0), (10, 0)), enable_events=True,
-                             key="-import-file-")),
-            sg.pin(sg.Button('Export Docker-Compose', font='16', pad=((10, 0), (10, 0)), enable_events=True,
-                             key="-export-file-"))
+            sg.Button('Import Docker-Compose', font='16', pad=((10, 0), (10, 0)), enable_events=True,
+                      key='-import-file-'),
+            sg.Button('Export Docker-Compose', font='16', pad=((10, 0), (10, 0)), enable_events=True,
+                      key='-export-file-')
         ],
         [
-            sg.Text(Generator.GenerateYaml(containers), font='15', auto_size_text=True, expand_x=True,
-                    background_color='#1E1E1E',
-                    size=(100, 200), key="-input-")
+            sg.Multiline(Generator.GenerateYaml(containers), font='15', autoscroll=True, auto_size_text=True,
+                         expand_x=True,
+                         background_color='#1E1E1E',
+                         size=(200, 200), key="-input-")
         ]
     ]
 

@@ -1,4 +1,5 @@
 import PySimpleGUI as sg
+
 from models.Volume import Volume
 
 scope = 0
@@ -21,7 +22,8 @@ def add_another_section_of_volume(count):
     for i in range(1, count + 1):
         inputs = [
             sg.pin(sg.Text("Volume: ", font='12', pad=((80, 0), (20, 0)), key=f'-volume-label-{i}-')),
-            sg.pin(sg.In(size=(26, 1), font='12', pad=((5, 0), (20, 0)), enable_events=True, key=f'-volume-value-{i}-'))]
+            sg.pin(
+                sg.In(size=(26, 1), font='12', pad=((5, 0), (20, 0)), enable_events=True, key=f'-volume-value-{i}-'))]
         array.append(inputs)
     return array
 
@@ -32,6 +34,7 @@ def save_volume_section(values, container):
         volume = Volume(values[f'-volume-value-{i}-'])
         volumes.append(volume.volume)
     container.volumes = volumes
+    container.volumesCount = len(volumes)
 
 
 def clear_volume_section(window):
