@@ -164,9 +164,9 @@ def create_layout(containers):
 
     docker_compose_text = [
         [
-            sg.Button('Import Docker-Compose', font='16', pad=((10, 0), (10, 0)), enable_events=True,
+            sg.Button('Import Docker-Compose', font='16', pad=((10, 0), (10, 10)), enable_events=True,
                       key='-import-file-'),
-            sg.Button('Export Docker-Compose', font='16', pad=((10, 0), (10, 0)), enable_events=True,
+            sg.Button('Export Docker-Compose', font='16', pad=((10, 0), (10, 10)), enable_events=True,
                       key='-export-file-')
         ],
         [

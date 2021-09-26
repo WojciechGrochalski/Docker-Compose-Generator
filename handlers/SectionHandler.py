@@ -109,16 +109,18 @@ class SectionHandler:
 
     @staticmethod
     def handle_import_button(window, containers):
+        data = ''
         path = path = sg.popup_get_file('', no_window=True,
                                         file_types=(('YAM', '.yam'), ('YAML', '.yaml')))
         if path != '':
             with open(path, 'r') as file:
                 data = yaml.load(file, Loader=SafeLoader)
         path = ''
-        new_containers, count = Generator.GetYamlFromFile(window, containers, data)
-        if new_containers is not None:
-            handle_containers_visibility(window, count - 1, containers)
-            return new_containers
+        if data != '':
+            new_containers, count = Generator.GetYamlFromFile(window, containers, data)
+            if new_containers is not None:
+                handle_containers_visibility(window, count - 1, containers)
+                return new_containers
         return containers
 
     @staticmethod

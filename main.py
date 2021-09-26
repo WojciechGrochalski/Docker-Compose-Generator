@@ -15,9 +15,10 @@ for i in range(1, 24):
 sg.theme('DarkBlack')
 sg.theme_background_color('#232733')
 sg.theme_text_element_background_color('#232733')
+sg.theme_button_color('#B0B0B0')
 sg.theme_border_width(0)
 
-window = sg.Window('Docker-Compose Generator', size=(1500, 900), resizable=True,
+window = sg.Window('Docker-Compose Generator', size=(1400, 900), resizable=True,
                    right_click_menu=sg.MENU_RIGHT_CLICK_EDITME_EXIT).layout(Layout.create_layout(containers))
 
 while True:
