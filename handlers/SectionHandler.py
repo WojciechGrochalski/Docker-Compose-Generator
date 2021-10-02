@@ -119,7 +119,7 @@ class SectionHandler:
                 data = yaml.load(file, Loader=SafeLoader)
         path = ''
         if data != '':
-            new_containers, count = Generator.GetYamlFromFile(window, containers, data)
+            new_containers, count = Generator.GetYamlFromFile(window, data)
             if new_containers is not None:
                 handle_containers_visibility(window, containers)
                 return new_containers

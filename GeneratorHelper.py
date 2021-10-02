@@ -122,7 +122,7 @@ class Generator:
         return docker_compose
 
     @staticmethod
-    def GetYamlFromFile(window, containers, yaml):
+    def GetYamlFromFile(window, yaml):
         i = 0
         name = ''
         key = f'-container-{i}-'
