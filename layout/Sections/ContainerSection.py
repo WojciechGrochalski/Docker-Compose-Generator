@@ -39,8 +39,9 @@ def add_blank_containers_section(containers):
     return array
 
 
-def handle_containers_visibility(window, scope, containers):
-    for i in range(0, scope + 1):
-        window[f'-container-{i}-'].update(visible=True)
-    for i in range(scope + 1, len(containers)):
-        window[f'-container-{i}-'].update(visible=False)
+def handle_containers_visibility(window, containers):
+    for container in containers:
+        if container.active:
+            window[container.key].update(visible=True)
+        else:
+            window[container.key].update(visible=False)

@@ -16,14 +16,14 @@ def createDependsSection(count=7):
 def addAnotherSectionOfDepends(count):
     array = []
     controls = [
-        sg.pin(sg.Text('Dependency', font='16', pad=((230, 0), (20, 20)), key='-label-dependency-'))
+        sg.pin(sg.Text('Dependency', font='16', pad=((180, 0), (20, 20)), key='-label-dependency-'))
     ]
     array.append(controls)
     for i in range(1, count + 1):
         inputs = [
-            sg.pin(sg.Text("Depends on: ", font='12', pad=((50, 0), (20, 0)), key=f"-depends-label-{i}-")),
+            sg.pin(sg.Text("Depends on: ", font='12', pad=((20, 0), (20, 0)), key=f"-depends-label-{i}-")),
             sg.pin(
-                sg.In(size=(26, 1), font='12', pad=((5, 0), (20, 0)), enable_events=True, key=f'-depends-value-{i}-'))]
+                sg.In(size=(26, 1), font='12', pad=((5, 20), (20, 0)), enable_events=True, key=f'-depends-value-{i}-'))]
         array.append(inputs)
     return array
 

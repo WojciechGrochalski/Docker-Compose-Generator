@@ -103,7 +103,8 @@ class SectionHandler:
     def handle_export_button(event, containers):
         if event == '-export-file-':
             path = sg.popup_get_file('', no_window=True, save_as=True,
-                                     file_types=(('YAM', '.yam'), ('YAML', '.yaml')))
+                                     file_types=(('YMl', '.yml'), ('YAML', '.yaml')))
+
             if path != '':
                 with open(path, 'w') as file:
                     file.write(Generator.GenerateYaml(containers))
@@ -112,7 +113,7 @@ class SectionHandler:
     def handle_import_button(window, containers):
         data = ''
         path = path = sg.popup_get_file('', no_window=True,
-                                        file_types=(('YAM', '.yam'), ('YAML', '.yaml')))
+                                        file_types=(('YMl YAML', ('*.yml', '*.yaml')), ('All Files', '*.*')))
         if path != '':
             with open(path, 'r') as file:
                 data = yaml.load(file, Loader=SafeLoader)

@@ -6,11 +6,11 @@ from layout import Layout
 from layout.Sections.ContainerSection import handle_containers_visibility
 from models.Container import Container
 
-containers = [Container('Container', '-container-0-', True)]
+containers = [Container('New container', '-container-0-', True)]
 currentContainer = containers[0]
 scope = 0
 for i in range(1, 24):
-    containers.append(Container('Container', f'-container-{i}-', False))
+    containers.append(Container('New container', f'-container-{i}-', False))
 
 sg.theme('DarkBlack')
 sg.theme_background_color('#232733')
@@ -39,9 +39,17 @@ while True:
             containers[scope].active = True
             currentContainer = containers[scope]
             SectionHandler.clear_all_inputs(window)
-            handle_containers_visibility(window, scope, containers)
+            handle_containers_visibility(window, containers)
         else:
             sg.popup_ok('You reached the limits of containers')
+    # Remove container
+    if event == '-remove-container-':
+        key = currentContainer.key
+        containers.remove(currentContainer)
+        containers.append(Container('New container', key, False))
+        SectionHandler.clear_all_inputs(window)
+        currentContainer = containers[0]
+        handle_containers_visibility(window, containers)
     # import yaml
     if event == '-import-file-':
         containers = SectionHandler.handle_import_button(window, containers)

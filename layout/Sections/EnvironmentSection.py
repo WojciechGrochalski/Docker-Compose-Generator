@@ -16,13 +16,13 @@ def createEnvSection(count=8):
 def addAnotherSectionOfEnv(count):
     array = []
     controls = [
-        sg.pin(sg.Text('Environment', font='16', pad=((220, 0), (20, 20)), key='-label-env-'))
+        sg.pin(sg.Text('Environment', font='16', pad=((190, 0), (20, 20)), key='-label-env-'))
     ]
     array.append(controls)
     for i in range(1, count + 1):
         inputs = [
-            sg.pin(sg.Text("Enviroment variable: ", font='12', pad=((50, 0), (20, 0)), key=f'-env-label-{i}-')),
-            sg.pin(sg.In(size=(26, 1), font='12', pad=((5, 0), (20, 0)), enable_events=True, key=f'-env-value-{i}-'))]
+            sg.pin(sg.Text("Enviroment variable: ", font='12', pad=((20, 0), (20, 0)), key=f'-env-label-{i}-')),
+            sg.pin(sg.In(size=(26, 1), font='12', pad=((5, 20), (20, 0)), enable_events=True, key=f'-env-value-{i}-'))]
         array.append(inputs)
     return array
 

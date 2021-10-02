@@ -16,21 +16,21 @@ def createPortsSection(count=8):
 def addAnotherSectionOfPorts(count):
     array = []
     controls = [
-        sg.pin(sg.Text('Ports', font='16', pad=((250, 0), (20, 20)), key='-label-ports-'))
+        sg.pin(sg.Text('Ports', font='16', pad=((190, 0), (20, 20)), key='-label-ports-'))
     ]
     array.append(controls)
 
     for i in range(1, count + 1):
         inputs = [
             sg.pin(
-                sg.Text("Outer port: ", font='12', pad=((50, 0), (20, 0)), enable_events=True,
+                sg.Text("Outer port: ", font='12', pad=((20, 0), (20, 0)), enable_events=True,
                         key=f"-outer-port-label-{i}-")),
             sg.pin(sg.In(size=(12, 1), font='12', pad=((5, 0), (20, 0)), enable_events=True,
                          key=f'-outer-port-value-{i}-')),
             sg.pin(
                 sg.Text("Inner port: ", font='12', pad=((10, 0), (20, 0)), enable_events=True,
                         key=f"-inner-port-label-{i}-")),
-            sg.pin(sg.In(size=(12, 1), font='12', pad=((5, 0), (20, 0)), enable_events=True,
+            sg.pin(sg.In(size=(12, 1), font='12', pad=((5, 20), (20, 0)), enable_events=True,
                          key=f'-inner-port-value-{i}-'))]
 
         array.append(inputs)

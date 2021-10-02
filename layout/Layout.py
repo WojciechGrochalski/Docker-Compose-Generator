@@ -127,8 +127,8 @@ def is_set_container(containers, event):
 def create_layout(containers):
     menu = [
         [
-            sg.Text('Selected container: Container', font='16', key='-curr-container-', auto_size_text=True,
-                    pad=((2, 0), (0, 0)))
+            sg.Text('Selected container: Container', font='24', key='-curr-container-', auto_size_text=True,
+                    pad=((5, 0), (0, 0)))
         ],
         [sg.pin(sg.Frame(layout=[[sg.Col(create_navigation_section(), vertical_alignment='c')]],
                          vertical_alignment='c', key='-navigation-section-',
@@ -186,6 +186,8 @@ def create_layout(containers):
         ],
         [
             sg.Button("Add container", font='16', enable_events=True, key='-add-container-', pad=((10, 0), (0, 10))),
+            sg.Button("Remove container", font='16', enable_events=True, key='-remove-container-',
+                      pad=((10, 0), (0, 10))),
             sg.Button("Select version", font='16', enable_events=True, key='-select-version-', pad=((10, 0), (0, 10))),
         ],
         sg.HSeparator()

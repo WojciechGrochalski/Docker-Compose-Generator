@@ -6,19 +6,19 @@ from models.Build import Build
 def createBuildSection():
     return [
         [
-            sg.pin(sg.Text('Build', font='22',  pad=((280, 0), (40, 0)), key='-label-build-'))
+            sg.pin(sg.Text('Build', font='22', pad=((280, 0), (40, 0)), key='-label-build-'))
         ],
         [
-            sg.pin(sg.Text("Dockerfile name: ", font='12', pad=((50, 0), (20, 0)), key="-build-dockerfile-label-")),
-            sg.pin(sg.In(size=(30, 1), font='12', pad=((5, 0), (20, 0)), enable_events=True,
+            sg.pin(sg.Text("Dockerfile name: ", font='12', pad=((20, 0), (20, 0)), key="-build-dockerfile-label-")),
+            sg.pin(sg.In(size=(30, 1), font='12', pad=((5, 20), (20, 0)), enable_events=True,
                          key='-docerfile-name-value-'))],
         [
-            sg.pin(sg.Text("Context:            ", font='12', pad=((50, 0), (10, 0)), key="-build-context-label-")),
+            sg.pin(sg.Text("Context:            ", font='12', pad=((20, 0), (10, 0)), key="-build-context-label-")),
             sg.pin(
-                sg.In(size=(30, 1), font='12', pad=((20, 0), (10, 0)), enable_events=True, key='-context-name-value-'))
+                sg.In(size=(30, 1), font='12', pad=((21, 19), (10, 0)), enable_events=True, key='-context-name-value-'))
         ],
         [
-            sg.pin(sg.Button('Apply', font='14', size=(12, 1), pad=((190, 0), (20, 0)), enable_events=True,
+            sg.pin(sg.Button('Apply', font='14', size=(12, 1), pad=((160, 0), (20, 0)), enable_events=True,
                              key='-save-build-')),
             sg.pin(sg.Button('Reset', font='14', size=(12, 1), pad=((10, 0), (20, 0)), enable_events=True,
                              key='-reset-build-'))
