@@ -132,6 +132,7 @@ class Generator:
         environments = None
         depends = None
         volumes = None
+        containers = Generator.reset_containers()
         for container in yaml['services']:
             data = yaml['services'][container]
             name = container
@@ -178,3 +179,10 @@ class Generator:
         if volumes is not None:
             container.volumesCount = len(volumes)
         return container
+
+    @staticmethod
+    def reset_containers():
+        containers = []
+        for i in range(0, 24):
+            containers.append(Container('New container', f'-container-{i}-', False))
+        return containers

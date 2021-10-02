@@ -121,7 +121,7 @@ class SectionHandler:
         if data != '':
             new_containers, count = Generator.GetYamlFromFile(window, containers, data)
             if new_containers is not None:
-                handle_containers_visibility(window, count - 1, containers)
+                handle_containers_visibility(window, containers)
                 return new_containers
         return containers
 

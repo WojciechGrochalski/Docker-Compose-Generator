@@ -44,15 +44,21 @@ while True:
             sg.popup_ok('You reached the limits of containers')
     # Remove container
     if event == '-remove-container-':
-        key = currentContainer.key
-        containers.remove(currentContainer)
-        containers.append(Container('New container', key, False))
-        SectionHandler.clear_all_inputs(window)
-        currentContainer = containers[0]
-        handle_containers_visibility(window, containers)
+        if currentContainer is not containers[0]:
+            key = currentContainer.key
+            containers.remove(currentContainer)
+            containers.append(Container('New container', key, False))
+            SectionHandler.clear_all_inputs(window)
+            currentContainer = containers[0]
+            handle_containers_visibility(window, containers)
+        else:
+            sg.popup_ok('You cannot removed this container')
     # import yaml
     if event == '-import-file-':
         containers = SectionHandler.handle_import_button(window, containers)
+        handle_containers_visibility(window, containers)
+        currentContainer = containers[0]
+        window['-curr-container-'].update(f'Selected container: {currentContainer.name}')
     # Generate YAML
     window['-input-'].update(Generator.GenerateYaml(containers))
 
