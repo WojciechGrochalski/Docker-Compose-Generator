@@ -41,7 +41,4 @@ def add_blank_containers_section(containers):
 
 def handle_containers_visibility(window, containers):
     for container in containers:
-        if container.active:
-            window[container.key].update(visible=True)
-        else:
-            window[container.key].update(visible=False)
+        window[container.key].update(visible=container.active)

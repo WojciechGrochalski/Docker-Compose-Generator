@@ -61,5 +61,7 @@ while True:
         window['-curr-container-'].update(f'Selected container: {currentContainer.name}')
     # Generate YAML
     window['-input-'].update(Generator.GenerateYaml(containers))
+    # Update GUI
+    Layout.update_gui(window,currentContainer)
 
 window.close()

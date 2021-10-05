@@ -117,6 +117,14 @@ def set_current_container(containers, event, window):
     return None
 
 
+def update_gui(window, container):
+    window['-container-name-value-'].update(container.name)
+    for i in range(1, container.portsCount):
+        print(container.ports[i].split())
+        # window[f'-outer-port-value-{i}-'].update(container.ports[i].split()[1])
+        # window[f'-inner-port-value-{i}-'].update(container.ports[i].split()[3])
+
+
 def is_set_container(containers, event):
     for container in containers:
         if event == container.key:
