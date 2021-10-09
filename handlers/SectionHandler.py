@@ -124,7 +124,11 @@ class SectionHandler:
                 data = yaml.load(file, Loader=SafeLoader)
         path = ''
         if data != '':
-            new_containers, count = Generator.GetYamlFromFile(window, data)
+            try:
+                new_containers, count = Generator.GetYamlFromFile(window, data)
+            except Exception as e:
+                sg.popup_ok('An error occurred while importing a file')
+                new_containers = None
             if new_containers is not None:
                 handle_containers_visibility(window, containers)
                 return new_containers
