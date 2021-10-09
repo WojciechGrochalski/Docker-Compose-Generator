@@ -118,11 +118,40 @@ def set_current_container(containers, event, window):
 
 
 def update_gui(window, container):
+    # Name
     window['-container-name-value-'].update(container.name)
-    for i in range(1, container.portsCount):
-        print(container.ports[i].split())
-        # window[f'-outer-port-value-{i}-'].update(container.ports[i].split()[1])
-        # window[f'-inner-port-value-{i}-'].update(container.ports[i].split()[3])
+    # Image
+    window['-image-name-value-'].update(container.image)
+    # Build
+    if container.build is not None:
+        window['-context-name-value-'].update(container.build.context)
+        window['-docerfile-name-value-'].update(container.build.dockerfile)
+    # Ports
+    ports = container.ports
+    for i in range(0, container.portsCount):
+        if len(ports[i]) > 0:
+            port = ports[i].split()[1]
+            port = port.replace('"', '')
+            window[f'-outer-port-value-{i + 1}-'].update(port.split(':')[0])
+            window[f'-inner-port-value-{i + 1}-'].update(port.split(':')[1])
+    # Environments
+    envs = container.environments
+    for i in range(0, container.environmentsCount):
+        if len(envs[i]) > 0:
+            env = envs[i].split()[1]
+            window[f'-env-value-{i + 1}-'].update(env)
+    # Dependency
+    dependency = container.dependency
+    for i in range(0, container.dependsCount):
+        if len(dependency[i]) > 0:
+            depend = dependency[i].split()[1]
+            window[f'-depends-value-{i + 1}-'].update(depend)
+    # Volumes
+    volumes = container.volumes
+    for i in range(0, container.volumesCount):
+        if len(volumes[i]) > 0:
+            volume = volumes[i].split()[1]
+            window[f'-volume-value-{i + 1}-'].update(volume)
 
 
 def is_set_container(containers, event):

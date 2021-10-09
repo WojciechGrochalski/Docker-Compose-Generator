@@ -28,15 +28,15 @@ class SectionHandler:
         # Image
         SectionHandler.handle_image_section(event, values, window, container)
         # Ports
-        SectionHandler.handle_port_section(values, container)
+        SectionHandler.handle_port_section(event, values, container)
         # Environment
-        SectionHandler.handle_env_section(values, container)
+        SectionHandler.handle_env_section(event, values, container)
         # Dependency
-        SectionHandler.handle_depends_section(values, container)
+        SectionHandler.handle_depends_section(event, values, container)
         # Version
         SectionHandler.handle_version_section(event, values)
         # Volumes
-        SectionHandler.handle_volume_section(values, container)
+        SectionHandler.handle_volume_section(event, values, container)
         # Export file
         SectionHandler.handle_export_button(event, containers)
 
@@ -65,12 +65,14 @@ class SectionHandler:
             save_version_section(values)
 
     @staticmethod
-    def handle_env_section(values, container):
-        save_env_section(values, container)
+    def handle_env_section(event, values, container):
+        if event == '-save-envs-':
+            save_env_section(values, container)
 
     @staticmethod
-    def handle_volume_section(values, container):
-        save_volume_section(values, container)
+    def handle_volume_section(event, values, container):
+        if event == '-save-volumes-':
+            save_volume_section(values, container)
 
     @staticmethod
     def handle_name_section(event, window, values, container):
@@ -78,12 +80,15 @@ class SectionHandler:
             save_container_name_section(values, window, container)
 
     @staticmethod
-    def handle_port_section(values, container):
-        save_port_section(values, container)
+    def handle_port_section(event, values, container):
+        if event == '-save-ports-':
+            save_port_section(values, container)
 
     @staticmethod
-    def handle_depends_section(values, container):
-        save_depends_section(values, container)
+    def handle_depends_section(event, values, container):
+        if event == '-save-depends-':
+            print('asd')
+            save_depends_section(values, container)
 
     @staticmethod
     def handle_image_section(event, values, window, container):
@@ -107,7 +112,7 @@ class SectionHandler:
 
             if path != '':
                 with open(path, 'w') as file:
-                    file.write(Generator.GenerateYaml(containers))
+                    file.write(Generator.GenerateYaml(containers, left_indent=''))
 
     @staticmethod
     def handle_import_button(window, containers):

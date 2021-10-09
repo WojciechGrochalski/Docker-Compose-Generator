@@ -6,7 +6,7 @@ from models.Build import Build
 def createBuildSection():
     return [
         [
-            sg.pin(sg.Text('Build', font='22', pad=((280, 0), (40, 0)), key='-label-build-'))
+            sg.pin(sg.Text('Build', font='22', pad=((250, 0), (40, 0)), key='-label-build-'))
         ],
         [
             sg.pin(sg.Text("Dockerfile name: ", font='12', pad=((20, 0), (20, 0)), key="-build-dockerfile-label-")),

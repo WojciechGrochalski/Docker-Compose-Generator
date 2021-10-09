@@ -29,8 +29,10 @@ while True:
         # Set current container
         currentContainer = Layout.set_current_container(containers, event, window)
         SectionHandler.clear_all_inputs(window)
-        window.refresh()
-    window['-input-'].update(Generator.GenerateYaml(containers))
+        # Update GUI
+        Layout.update_gui(window, currentContainer)
+        window['-input-'].update(Generator.GenerateYaml(containers))
+
     # Handle sections
     SectionHandler.handle_all_section(event, values, window, currentContainer, containers)
     if event == '-add-container-':
@@ -44,7 +46,7 @@ while True:
             sg.popup_ok('You reached the limits of containers')
     # Remove container
     if event == '-remove-container-':
-        if currentContainer is not containers[0]:
+        if len(containers) > 0 or currentContainer is not containers[0]:
             key = currentContainer.key
             containers.remove(currentContainer)
             containers.append(Container('New container', key, False))
@@ -61,7 +63,5 @@ while True:
         window['-curr-container-'].update(f'Selected container: {currentContainer.name}')
     # Generate YAML
     window['-input-'].update(Generator.GenerateYaml(containers))
-    # Update GUI
-    Layout.update_gui(window,currentContainer)
 
 window.close()

@@ -16,15 +16,20 @@ def createDependsSection(count=7):
 def addAnotherSectionOfDepends(count):
     array = []
     controls = [
-        sg.pin(sg.Text('Dependency', font='16', pad=((180, 0), (20, 20)), key='-label-dependency-'))
+        sg.pin(sg.Text('Dependency', font='16', pad=((210, 0), (20, 10)), key='-label-dependency-'))
     ]
     array.append(controls)
     for i in range(1, count + 1):
         inputs = [
             sg.pin(sg.Text("Depends on: ", font='12', pad=((20, 0), (20, 0)), key=f"-depends-label-{i}-")),
             sg.pin(
-                sg.In(size=(26, 1), font='12', pad=((5, 20), (20, 0)), enable_events=True, key=f'-depends-value-{i}-'))]
+                sg.In(size=(35, 1), font='12', pad=((5, 20), (20, 0)), enable_events=True, key=f'-depends-value-{i}-'))]
         array.append(inputs)
+    apply = [
+        sg.pin(sg.Button('Apply', font='14', size=(12, 1), pad=((190, 0), (20, 0)), enable_events=True,
+                         key='-save-depends-'))
+    ]
+    array.append(apply)
     return array
 
 
@@ -33,7 +38,7 @@ def save_depends_section(values, container):
     for i in range(1, scope + 1):
         depend = Dependency(values[f'-depends-value-{i}-'])
         depends.append(depend.dependency)
-    container.depends = depends
+    container.dependency = depends
     container.dependsCount = len(depends)
 
 
