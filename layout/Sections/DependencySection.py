@@ -16,7 +16,7 @@ def createDependsSection(count=7):
 def addAnotherSectionOfDepends(count):
     array = []
     controls = [
-        sg.pin(sg.Text('Dependency', font='16', pad=((210, 0), (20, 10)), key='-label-dependency-'))
+        sg.pin(sg.Text('Dependency', font='16', pad=((220, 0), (20, 10)), key='-label-dependency-'))
     ]
     array.append(controls)
     for i in range(1, count + 1):

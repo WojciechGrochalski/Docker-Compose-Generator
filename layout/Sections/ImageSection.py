@@ -4,7 +4,7 @@ import PySimpleGUI as sg
 def createImageSection():
     return [
         [
-            sg.pin(sg.Text('Image', font='22', pad=((230, 0), (40, 0)), key='-label-image-'))
+            sg.pin(sg.Text('Image', font='22', pad=((270, 0), (40, 0)), key='-label-image-'))
         ],
         [
             sg.pin(sg.Text("Container image: ", font='12', key='-image-name-', pad=((20, 0), (20, 0)), )),

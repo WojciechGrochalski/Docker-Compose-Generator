@@ -10,7 +10,7 @@ def create_navigation_section():
             sg.pin(sg.Button('Environments', font='16', pad=((10, 0), (10, 0)), enable_events=True, key="-env-")),
         ],
         [
-            sg.pin(sg.Button('Build', font='16', pad=((138, 0), (10, 0)), enable_events=True, key="-build-")),
+            sg.pin(sg.Button('Build', font='16', pad=((156, 0), (10, 0)), enable_events=True, key="-build-")),
             sg.pin(sg.Button('Ports', font='16', pad=((10, 0), (10, 0)), enable_events=True, key="-ports-")),
             sg.pin(sg.Button('Depends', font='16', pad=((10, 0), (10, 0)), enable_events=True, key="-depends-")),
             sg.pin(sg.Button('Volumes', font='16', pad=((10, 0), (10, 0)), enable_events=True, key="-volumes-"))

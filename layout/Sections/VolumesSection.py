@@ -16,7 +16,7 @@ def create_volume_section(count=8):
 def add_another_section_of_volume(count):
     array = []
     controls = [
-        sg.pin(sg.Text('Volumes', font='16', pad=((210, 0), (20, 10)), key='-label-volume-'))
+        sg.pin(sg.Text('Volumes', font='16', pad=((225, 0), (20, 10)), key='-label-volume-'))
     ]
     array.append(controls)
     for i in range(1, count + 1):

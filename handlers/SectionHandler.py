@@ -110,21 +110,26 @@ class SectionHandler:
             path = sg.popup_get_file('', no_window=True, save_as=True,
                                      file_types=(('YMl', '.yml'), ('YAML', '.yaml')))
 
-            if path != '':
+            if path and path != '':
                 with open(path, 'w') as file:
                     file.write(Generator.GenerateYaml(containers, left_indent=''))
 
     @staticmethod
     def handle_import_button(window, containers):
         data = ''
-        path = path = sg.popup_get_file('', no_window=True,
-                                        file_types=(('YMl YAML', ('*.yml', '*.yaml')), ('All Files', '*.*')))
-        if path != '':
+        path = sg.popup_get_file('', no_window=True,
+                                 file_types=(('YMl YAML', ('*.yml', '*.yaml')), ('All Files', '*.*')))
+        print(path)
+        if path and path != '':
             with open(path, 'r') as file:
                 data = yaml.load(file, Loader=SafeLoader)
         path = ''
         if data != '':
-            new_containers, count = Generator.GetYamlFromFile(window, data)
+            try:
+                new_containers, count = Generator.GetYamlFromFile(window, data)
+            except Exception as e:
+                sg.popup_ok('An error occurred while importing a file')
+                new_containers = None
             if new_containers is not None:
                 handle_containers_visibility(window, containers)
                 return new_containers
