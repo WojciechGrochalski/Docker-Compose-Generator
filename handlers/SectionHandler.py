@@ -117,8 +117,8 @@ class SectionHandler:
     @staticmethod
     def handle_import_button(window, containers):
         data = ''
-        path = path = sg.popup_get_file('', no_window=True,
-                                        file_types=(('YMl YAML', ('*.yml', '*.yaml')), ('All Files', '*.*')))
+        path = sg.popup_get_file('', no_window=True,
+                                 file_types=(('YMl YAML', ('*.yml', '*.yaml')), ('All Files', '*.*')))
         if path != '':
             with open(path, 'r') as file:
                 data = yaml.load(file, Loader=SafeLoader)
