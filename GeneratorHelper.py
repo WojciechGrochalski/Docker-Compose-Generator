@@ -7,6 +7,7 @@ from models.Volume import Volume
 
 endLine = '\n'
 indent = '   '
+elements_indent = indent * 3
 
 
 class Generator:
@@ -20,7 +21,7 @@ class Generator:
                 if port is container.ports[0]:
                     container_ports += left_indent + port + endLine
                 else:
-                    container_ports += left_indent + indent * 2 + port + endLine
+                    container_ports += left_indent + elements_indent + port + endLine
         return container_ports
 
     @staticmethod
@@ -31,7 +32,7 @@ class Generator:
                 if environment is container.environments[0]:
                     container_environment += left_indent + environment + endLine
                 else:
-                    container_environment += left_indent + indent * 2 + environment + endLine
+                    container_environment += left_indent + elements_indent + environment + endLine
         return container_environment
 
     @staticmethod
@@ -42,7 +43,7 @@ class Generator:
                 if dependency is container.dependency[0]:
                     container_dependency += left_indent + dependency + endLine
                 else:
-                    container_dependency += left_indent + indent * 2 + dependency + endLine
+                    container_dependency += left_indent + elements_indent + dependency + endLine
         return container_dependency
 
     @staticmethod
@@ -68,7 +69,7 @@ class Generator:
                 if volume is container.volumes[0]:
                     volumes += left_indent + volume + endLine
                 else:
-                    volumes += left_indent + indent * 2 + volume + endLine
+                    volumes += left_indent + elements_indent + volume + endLine
         return volumes
 
     @staticmethod
@@ -144,8 +145,8 @@ class Generator:
             if 'ports' in data:
                 ports = []
                 for port in data['ports']:
-                    splited_port = port.split(':')
-                    new_port = Port(splited_port[0], splited_port[1])
+                    spliced_port = port.split(':')
+                    new_port = Port(spliced_port[0], spliced_port[1])
                     ports.append(new_port.port)
             if 'environment' in data:
                 environments = []
