@@ -145,8 +145,8 @@ class Generator:
             if 'ports' in data:
                 ports = []
                 for port in data['ports']:
-                    splited_port = port.split(':')
-                    new_port = Port(splited_port[0], splited_port[1])
+                    spliced_port = port.split(':')
+                    new_port = Port(spliced_port[0], spliced_port[1])
                     ports.append(new_port.port)
             if 'environment' in data:
                 environments = []
