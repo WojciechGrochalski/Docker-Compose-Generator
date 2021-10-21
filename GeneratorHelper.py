@@ -156,8 +156,8 @@ class Generator:
             if 'depends_on' in data:
                 depends = []
                 for dependency in data['depends_on']:
-                    deps = Dependency(dependency)
-                    depends.append(deps.dependency)
+                    depss = Dependency(dependency)
+                    depends.append(depss.dependency)
             if 'volumes' in data:
                 volumes = []
                 for volume in data['volumes']:
