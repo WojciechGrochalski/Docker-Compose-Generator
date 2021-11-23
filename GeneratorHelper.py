@@ -134,6 +134,8 @@ class Generator:
         environments = None
         depends = None
         volumes = None
+        window['-selected-version-value-'].update(yaml['version'])
+        Generator.version = yaml['version']
         containers = Generator.reset_containers()
         for container in yaml['services']:
             data = yaml['services'][container]
