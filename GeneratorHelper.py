@@ -7,7 +7,6 @@ from models.Volume import Volume
 
 endLine = '\n'
 indent = '   '
-elements_indent = indent * 2
 
 
 class Generator:
