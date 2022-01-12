@@ -7,43 +7,43 @@ from models.Volume import Volume
 
 endLine = '\n'
 indent = '   '
-elements_indent = indent * 3
+elements_indent = indent * 2
 
 
 class Generator:
     version = '3.8'
 
     @staticmethod
-    def get_ports(container, left_indent):
+    def get_ports(container, left_indent, count):
         container_ports = ''
         for port in container.ports:
             if port:
                 if port is container.ports[0]:
                     container_ports += left_indent + port + endLine
                 else:
-                    container_ports += left_indent + elements_indent + port + endLine
+                    container_ports += left_indent + indent * count + port + endLine
         return container_ports
 
     @staticmethod
-    def get_environments(container, left_indent):
+    def get_environments(container, left_indent, count):
         container_environment = ''
         for environment in container.environments:
             if environment:
                 if environment is container.environments[0]:
                     container_environment += left_indent + environment + endLine
                 else:
-                    container_environment += left_indent + elements_indent + environment + endLine
+                    container_environment += left_indent + indent * count + environment + endLine
         return container_environment
 
     @staticmethod
-    def get_dependency(container, left_indent):
+    def get_dependency(container, left_indent, count):
         container_dependency = ''
         for dependency in container.dependency:
             if dependency:
                 if dependency is container.dependency[0]:
                     container_dependency += left_indent + dependency + endLine
                 else:
-                    container_dependency += left_indent + elements_indent + dependency + endLine
+                    container_dependency += left_indent + indent * count + dependency + endLine
         return container_dependency
 
     @staticmethod
@@ -62,14 +62,14 @@ class Generator:
         return container_image
 
     @staticmethod
-    def get_volumes(container, left_indent):
+    def get_volumes(container, left_indent, count):
         volumes = ''
         for volume in container.volumes:
             if volume:
                 if volume is container.volumes[0]:
                     volumes += left_indent + volume + endLine
                 else:
-                    volumes += left_indent + elements_indent + volume + endLine
+                    volumes += left_indent + indent * count + volume + endLine
         return volumes
 
     @staticmethod
@@ -87,7 +87,7 @@ class Generator:
                 break
 
     @staticmethod
-    def GenerateYaml(containers, left_indent="   "):
+    def GenerateYaml(containers, left_indent="   ", count=3):
         docker_compose = f'\n{left_indent}version:  "{Generator.version}"' + endLine * 2 + f'{left_indent}services:' + endLine * 2
         for container in containers:
             if container.active:
@@ -103,22 +103,23 @@ class Generator:
                 if container.ports is not None and container.portsCount > 0 \
                         and len(container.ports[0]) > 0:
                     docker_compose += left_indent + indent * 2 + 'ports:' + endLine
-                    docker_compose += left_indent + indent * 2 + Generator.get_ports(container, left_indent)
+                    docker_compose += left_indent + indent * 2 + Generator.get_ports(container, left_indent, count)
                 # Environments
                 if container.environments is not None and container.environmentsCount > 0 \
                         and len(container.environments[0]) > 0:
                     docker_compose += left_indent + indent * 2 + 'environment:' + endLine
-                    docker_compose += left_indent + indent * 2 + Generator.get_environments(container, left_indent)
+                    docker_compose += left_indent + indent * 2 + Generator.get_environments(container, left_indent,
+                                                                                            count)
                 # Dependency
                 if container.dependency is not None and container.dependsCount > 0 \
                         and len(container.dependency[0]) > 0:
                     docker_compose += left_indent + indent * 2 + 'depends_on:' + endLine
-                    docker_compose += left_indent + indent * 2 + Generator.get_dependency(container, left_indent)
+                    docker_compose += left_indent + indent * 2 + Generator.get_dependency(container, left_indent, count)
                 # Volumes
                 if container.volumes is not None and container.volumesCount > 0 \
                         and len(container.volumes[0]) > 0:
                     docker_compose += left_indent + indent * 2 + 'volumes:' + endLine
-                    docker_compose += left_indent + indent * 2 + Generator.get_volumes(container, left_indent)
+                    docker_compose += left_indent + indent * 2 + Generator.get_volumes(container, left_indent, count)
 
                 docker_compose += endLine
         return docker_compose
