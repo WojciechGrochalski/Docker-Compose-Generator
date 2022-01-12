@@ -87,7 +87,6 @@ class SectionHandler:
     @staticmethod
     def handle_depends_section(event, values, container):
         if event == '-save-depends-':
-            print('asd')
             save_depends_section(values, container)
 
     @staticmethod
@@ -95,14 +94,14 @@ class SectionHandler:
         if event == '-save-image-':
             save_container_image_section(values, window, container)
         if event == '-reset-image-':
-            reset_image_value(values, container)
+            reset_image_value(window, container)
 
     @staticmethod
     def handle_build_section(event, values, window, container):
         if event == '-save-build-':
             save_build_section(values, window, container)
         if event == '-reset-build-':
-            reset_build_value(values, container)
+            reset_build_value(window, container)
 
     @staticmethod
     def handle_export_button(event, containers):
