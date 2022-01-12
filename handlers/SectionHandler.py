@@ -87,7 +87,6 @@ class SectionHandler:
     @staticmethod
     def handle_depends_section(event, values, container):
         if event == '-save-depends-':
-            print('asd')
             save_depends_section(values, container)
 
     @staticmethod
@@ -121,8 +120,11 @@ class SectionHandler:
                                  file_types=(('YMl YAML', ('*.yml', '*.yaml')), ('All Files', '*.*')))
         print(path)
         if path and path != '':
-            with open(path, 'r') as file:
-                data = yaml.load(file, Loader=SafeLoader)
+            try:
+                with open(path, 'r') as file:
+                    data = yaml.load(file, Loader=SafeLoader)
+            except Exception as e:
+                sg.popup_ok('An error occurred while importing a file')
         path = ''
         if data != '':
             try:
