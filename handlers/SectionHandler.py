@@ -112,7 +112,7 @@ class SectionHandler:
 
             if path and path != '':
                 with open(path, 'w') as file:
-                    file.write(Generator.GenerateYaml(containers, left_indent=''))
+                    file.write(Generator.GenerateYaml(containers, left_indent='', count=2))
 
     @staticmethod
     def handle_import_button(window, containers):
