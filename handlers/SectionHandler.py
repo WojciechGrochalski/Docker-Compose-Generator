@@ -111,7 +111,6 @@ class SectionHandler:
 
             if path != '':
                 with open(path, 'w') as file:
-                    # yaml.safe_dump(Generator.GenerateYaml(containers, left_indent=''), file, default_flow_style=False)
                     file.write(Generator.GenerateYaml(containers, left_indent='', count=2))
 
     @staticmethod
@@ -128,7 +127,6 @@ class SectionHandler:
         path = ''
         if data != '':
             try:
-                print(data)
                 new_containers, count = Generator.GetYamlFromFile(window, data)
             except Exception as e:
                 sg.popup_ok('An error occurred while importing a file')
