@@ -19,7 +19,7 @@ class SectionHandler:
 
     @staticmethod
     def handle_all_section(event, values, window, container, containers):
-        # Controls TODO add volumines command network
+        # Controls
         SectionHandler.handle_controls_section(event, window)
         # Name
         SectionHandler.handle_name_section(event, window, values, container)
@@ -109,7 +109,7 @@ class SectionHandler:
             path = sg.popup_get_file('', no_window=True, save_as=True,
                                      file_types=(('YMl', '.yml'), ('YAML', '.yaml')))
 
-            if path and path != '':
+            if path != '':
                 with open(path, 'w') as file:
                     file.write(Generator.GenerateYaml(containers, left_indent='', count=2))
 
@@ -118,8 +118,7 @@ class SectionHandler:
         data = ''
         path = sg.popup_get_file('', no_window=True,
                                  file_types=(('YMl YAML', ('*.yml', '*.yaml')), ('All Files', '*.*')))
-        print(path)
-        if path and path != '':
+        if path != '':
             try:
                 with open(path, 'r') as file:
                     data = yaml.load(file, Loader=SafeLoader)
